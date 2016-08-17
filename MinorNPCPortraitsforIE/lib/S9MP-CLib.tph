@@ -1,0 +1,650 @@
+//Variable Declarations
+INCLUDE ~%MOD_FOLDER%/lib/S9M-Pools.tph~
+
+// Functions
+DEFINE_ACTION_FUNCTION ~GetRndCatPic~
+	INT_VAR
+	"S9Cnt"		 			= "0"							// File Suffix
+	STR_VAR
+	"S9FN"    				= ""							// Filename
+	"S9FLD"    				= ""							// Foldername
+	BEGIN
+		LOG ~PATCHING: %Crefullname% (%Crename%.cre) with CATEGORY PORTRAIT: %S9FN%%S9Cnt%.bmp (%group% #%S9Cnt%)~
+		ACTION_IF FILE_EXISTS ~%MOD_FOLDER%/RandomPortraits/%S9FLD%/%S9FN%%S9Cnt%.bmp~ THEN BEGIN
+			COPY ~%MOD_FOLDER%/RandomPortraits/%S9FLD%/%S9FN%%S9Cnt%.bmp~ ~override~
+			COPY_EXISTING ~%Crename%.cre~ ~override~
+				WRITE_EVALUATED_ASCII 0x34 ~%S9FN%%S9Cnt%~ #8
+		END		
+	END
+
+//Read Creature data & Begin
+COPY_EXISTING_REGEXP GLOB ~^.+\.cre$~ ~override~
+	READ_ASCII  0x02cc dialoguefile ELSE 0
+	READ_ASCII  0x0034 portraitfile ELSE 0
+	READ_BYTE   0x0237 cresex ELSE 0
+	READ_BYTE   0x0272 crerace ELSE 0
+	READ_BYTE   0x0273 creclass ELSE 0
+	READ_STRREF 0x0008 Crefullname ELSE 0
+	READ_SHORT  0x28   animationindex  ELSE 0
+	READ_BYTE 	0x002f SkinColor ELSE 0
+	PATCH_IF ((FILE_EXISTS_IN_GAME ~%dialoguefile%.dlg~) AND			// Creature has a valid dialogue file 
+				(NOT FILE_EXISTS_IN_GAME ~%portraitfile%.bmp~)) BEGIN 	// and doesn't already have a portrait
+					INNER_ACTION BEGIN
+					OUTER_SPRINT ~Crename~ ~%SOURCE_RES%~
+					OUTER_SET IsPortraitSet = 0 						// (Re)Sets Flag for no portrait set  
+/*
+***********************************************************
+***************************** Category Portraits **********
+***********************************************************
+*/
+					// There's only Males made of these...
+					ACTION_IF ((crerace = 108) AND (animationindex = 57472)) THEN BEGIN LAUNCH_ACTION_MACRO ~Mummy~ END										// Mummy
+					ACTION_IF ((crerace = 108)) THEN BEGIN LAUNCH_ACTION_MACRO ~GhoulMale~ END																// Ghoul
+					ACTION_IF ((crerace = 110)) THEN BEGIN LAUNCH_ACTION_MACRO ~Gnoll~ END																	// Gnoll
+					ACTION_IF ((crerace = 111)) THEN BEGIN LAUNCH_ACTION_MACRO ~HobgobM~ END																// Hobgoblin
+					ACTION_IF ((crerace = 112)) THEN BEGIN LAUNCH_ACTION_MACRO ~Kobold~ END																	// Kobold
+					ACTION_IF ((crerace = 115)) THEN BEGIN LAUNCH_ACTION_MACRO ~Skeletons~ END																// Skeltons
+					ACTION_IF ((crerace = 121) AND (animationindex = 4352)) THEN BEGIN LAUNCH_ACTION_MACRO ~DemonM~ END										// Demon
+					ACTION_IF ((crerace = 123)) THEN BEGIN LAUNCH_ACTION_MACRO ~Beholder~ END																// Beholders
+					ACTION_IF ((crerace = 129)) THEN BEGIN LAUNCH_ACTION_MACRO ~TrollMale~ END																// Troll
+					ACTION_IF ((crerace = 143)) THEN BEGIN LAUNCH_ACTION_MACRO ~OrcMale~ END																// Orc
+					ACTION_IF ((crerace = 144)) THEN BEGIN LAUNCH_ACTION_MACRO ~GolemMale~ END																// Golem
+					ACTION_IF ((crerace = 145) AND (animationindex = 29472)) THEN BEGIN LAUNCH_ACTION_MACRO ~AirElement~ END								// Air Elementals
+					ACTION_IF ((crerace = 145) AND (animationindex = 29440)) THEN BEGIN LAUNCH_ACTION_MACRO ~UrfElement~ END								// Earth Elementals
+					ACTION_IF (((crerace = 147) AND (~%Crefullname%~ STRING_CONTAINS_REGEXP ~Guardian~) == 0)) THEN BEGIN 
+						LAUNCH_ACTION_MACRO ~StrohmGuard~ END																								// Strohm Guard Effreti
+					ACTION_IF ((crerace = 147)) THEN BEGIN LAUNCH_ACTION_MACRO ~GenieMale~ END																// Genie
+					ACTION_IF ((crerace = 148)) THEN BEGIN LAUNCH_ACTION_MACRO ~ZombieMale~ END																// Zombie
+					ACTION_IF ((crerace = 150)) THEN BEGIN LAUNCH_ACTION_MACRO ~LichMale~ END																// Lich
+					ACTION_IF ((crerace = 152)) THEN BEGIN LAUNCH_ACTION_MACRO ~GithyankiMale~ END															// Githyanki
+					
+					//On to Male and female checks...
+					// ********************************************************************************
+					// *********************************** Ghosts *************************************
+					// ********************************************************************************
+					ACTION_IF ((crerace = 175) OR (crerace = 133)) THEN BEGIN
+						ACTION_IF (cresex = 1) THEN BEGIN LAUNCH_ACTION_MACRO ~GhostM~ END																	//Ghost Male
+						ACTION_IF (cresex = 2) THEN BEGIN LAUNCH_ACTION_MACRO ~GhostF~ END																	//Ghost Female
+					END					
+					// ********************************************************************************
+					// ******************************* Lycanthropes ***********************************
+					// ********************************************************************************
+					ACTION_IF (crerace = 122) THEN BEGIN
+						ACTION_IF (cresex = 1) THEN BEGIN
+							// ------------------------------- Lycanthrope Male -----------------------
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Commoner~) == 0)  ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Captain~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Farmer~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~LycanMale~ END						// Unusual Commoner
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Fighter~) == 0)  ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Gatekeeper~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~LycanFtM~ END					// Unusual Fighter
+						END
+						ACTION_IF (cresex = 2) THEN BEGIN
+							// ----------------------------- Lycanthrope Female -----------------------
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Commoner~) == 0)  ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Captain~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Farmer~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~LycanFemale~ END					// Unusual Commoner
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Fighter~) == 0)  ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Gatekeeper~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~LycanFtF~ END					// Unusual Fighter
+						END
+					END	// End Lycanthropes
+					// ********************************************************************************
+					// ********************************* Eldathyn *************************************
+					// ********************************************************************************
+					ACTION_IF (crerace = 154) THEN BEGIN
+						ACTION_IF (cresex = 1) THEN BEGIN
+							// -------------------------- Eldathyn Male -------------------------------
+								ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Eldathyn~) == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~LycanMale~ END		// Unusual Commoner
+						END
+						ACTION_IF (cresex = 2) THEN BEGIN
+							// ------------------------ Eldathyn Female -------------------------------
+								ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Eldathyn~) == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~LycanFemale~ END		// Unusual Fighter
+						END
+					END	// End Eldathyn
+					// ********************************************************************************
+					// ********************************* Tiefling *************************************
+					// ********************************************************************************
+					ACTION_IF (crerace = 153) THEN BEGIN
+						ACTION_IF (cresex = 1) THEN BEGIN
+						// ------------------------------- Male --------------------------------
+							LAUNCH_ACTION_MACRO ~TiefM~																										// Tiefling Male
+						END
+						ACTION_IF (cresex = 2) THEN BEGIN					
+						// ----------------------------- Female --------------------------------
+							LAUNCH_ACTION_MACRO ~TiefF~																										// Tiefling Female
+						END
+					END // End Tiefling					
+					// ********************************************************************************
+					// ********************************* Planatar *************************************
+					// ********************************************************************************
+					ACTION_IF (crerace = 158) THEN BEGIN					
+						ACTION_IF (cresex = 1) THEN BEGIN LAUNCH_ACTION_MACRO ~PlanetMale~ END																//Planatar Male
+						ACTION_IF (cresex = 2) THEN BEGIN LAUNCH_ACTION_MACRO ~PlanetFem~ END																//Planatar Female
+					END	// End Planatar
+					// ********************************************************************************
+					// *********************************** Imp ****************************************
+					// ********************************************************************************
+					ACTION_IF (crerace = 141) THEN BEGIN
+						ACTION_IF (cresex = 1) THEN BEGIN
+						// ------------------------------- Male --------------------------------
+							LAUNCH_ACTION_MACRO ~ImpM~																										// Imp Male
+						END
+						ACTION_IF (cresex = 2) THEN BEGIN					
+						// ----------------------------- Female --------------------------------
+							LAUNCH_ACTION_MACRO ~ImpF~																										// Imp Female
+						END
+					END // End Imp
+					// ********************************************************************************
+					// ********************************* Sahuagin *************************************
+					// ********************************************************************************
+					ACTION_IF (crerace = 131) THEN BEGIN
+						ACTION_IF (cresex = 1) THEN BEGIN
+						// ------------------------------- Male --------------------------------
+							LAUNCH_ACTION_MACRO ~SahuaginM~																									// Sahuagin Male
+						END
+						ACTION_IF (cresex = 2) THEN BEGIN					
+						// ----------------------------- Female --------------------------------
+							LAUNCH_ACTION_MACRO ~SahuaginF~																									// Sahuagin Female
+						END
+					END // End Sahuagin
+					// ********************************************************************************
+					// ********************************* Ogre *****************************************
+					// ********************************************************************************
+					ACTION_IF (crerace = 113) THEN BEGIN
+						ACTION_IF (cresex = 1) THEN BEGIN
+						// ------------------------------- Male --------------------------------
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Ogre Mage~) == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~OgreMageM~ END 			// Ogre Mage Male
+							ACTION_IF !(((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Ogre Mage~) == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~OgreM~ END 			// Ogre Male
+						END
+						ACTION_IF (cresex = 2) THEN BEGIN					
+						// ----------------------------- Female --------------------------------
+							LAUNCH_ACTION_MACRO ~OgreF~ 
+						END
+					END // End Ogre
+					// ********************************************************************************
+					// *********************************** Elf ****************************************
+					// ********************************************************************************
+					ACTION_IF (crerace = 2) THEN BEGIN
+						ACTION_IF (cresex = 1) THEN BEGIN
+							// ------------------------------- Male -----------------------------------
+							ACTION_IF (((SkinColor = 223) || 
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Drow~) == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~DrowMale~ END 						//Drow Male
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Ghost~) == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Spectral~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Apparition~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~GhostM~ END						// Ghosts Male
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Elf~) == 0)  ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Crusader~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Storekeep~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Sailor~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Cleric Of~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Adherent~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Coalition~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Bridgefort~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Daggerford~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Prisoner~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Waterdhavian~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Mercenary~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Bounty Hunter~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Refugee~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Thrall~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Woodcutter~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Elven~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~ElfMale~ END							// Elf Male
+						END // Elf Male
+						ACTION_IF (cresex = 2) THEN BEGIN
+							// ----------------------------- Female -----------------------------------
+							ACTION_IF (((SkinColor = 223) || 
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Drow~) == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~DrowFemale~ END 						//Drow Female
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Ghost~) == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Spectral~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Apparition~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~GhostF~ END						// Ghosts Female
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Elf~) == 0)  ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Crusader~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Storekeep~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Sailor~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Cleric Of~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Coalition~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Bridgefort~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Daggerford~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Prisoner~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Waterdhavian~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Mercenary~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Bounty Hunter~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Refugee~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Thrall~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Woodcutter~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Elven~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~ElfFemale~ END						// Elf Female
+						END // Elf Female
+					END  // End Elf
+					// ********************************************************************************
+					// ********************************* Half Elf *************************************
+					// ********************************************************************************
+					ACTION_IF (crerace = 3) THEN BEGIN
+						ACTION_IF (cresex = 2) THEN BEGIN
+							// ----------------------------- Female --------------------------------
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Mage~) == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Magician~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Sorceress~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Wizard~ == 0) AND 
+								!(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Wizard Slayer~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~WizardF~ END				// Wizard Female
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Crusader~) == 0)  ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Coalition~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Mercenary~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~HalfElfFemale~ END				//Half Elf Female
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Rogue~) == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Ruffian~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Bandit~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Thief~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Assassin~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~ThiefF~ END						// Thief Female
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Commoner~) == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Refugee~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Digger~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Prisoner~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Traveler~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Worker~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Crowd Member~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Townsperson~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~GetRndFemale~ END				// Generic Female
+						END
+						ACTION_IF (cresex = 1) THEN BEGIN
+							// ------------------------------- Male --------------------------------
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Mage~) == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Magician~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Sorcerer~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Wizard~ == 0) AND 
+								!(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Wizard Slayer~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~WizardM~ END				// Wizard Male
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Crusader~) == 0)  ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Coalition~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Mercenary~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~HalfElfMale~ END					//Half Elf Male
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Rogue~) == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Ruffian~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Bandit~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Thief~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Assassin~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~ThiefM~ END						// Thief Male
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Commoner~) == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Refugee~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Digger~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Prisoner~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Traveler~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Worker~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Crowd Member~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Townsperson~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~GetRndMale~ END				// Generic Male							
+						END
+					END	// End Half Elf					
+					// ********************************************************************************
+					// *********************************** Dwarf **************************************
+					// ********************************************************************************
+					ACTION_IF (crerace = 4) THEN BEGIN
+						ACTION_IF (cresex = 2) THEN BEGIN
+							// ----------------------------- Female -----------------------------------
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Dwarf~) == 0)  ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Crusader~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Ruffian~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Guard~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Traveler~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Worker~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Daggerford~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Waterdhavian~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Mercenary~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Gladiator~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Merchant~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Commoner~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Dockhand~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Dwarven~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~DwarfFemale~ END					//Dwarf Female
+						END					
+						ACTION_IF (cresex = 1) THEN BEGIN
+							// ------------------------------- Male -----------------------------------
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Dwarf~) == 0)  ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Crusader~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Ruffian~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Guard~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Traveler~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Worker~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Daggerford~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Waterdhavian~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Commoner~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Mercenary~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Gladiator~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Merchant~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Dockhand~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Dwarven~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~DwarfMale~ END						//Dwarf Male
+						END
+					END	// End Dwarf
+					// ********************************************************************************
+					// ********************************* Halfling *************************************
+					// ********************************************************************************
+					ACTION_IF (crerace = 5) THEN BEGIN
+						ACTION_IF (cresex = 1) THEN BEGIN
+							// ------------------------------- Male --------------------------------
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Thief~) == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Assassin~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~HafThM~ END						// Halfling Male Thief
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Crusader~) == 0)  ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Halfling~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Beggar~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Commoner~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Cook~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Refugee~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Peasant~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Circus Performer~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Town Crier~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Bridgefort~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Daggerford~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Slave~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Mourner~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Sailor~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Mercenary~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~HalflingMale~ END				//Halfling Male
+						END
+						ACTION_IF (cresex = 2) THEN BEGIN
+						// ----------------------------- Female ------------------------------------
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Thief~) == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Assassin~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~HafThF~ END						// Halfling Female Thief
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Crusader~) == 0)  ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Halfling~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Beggar~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Commoner~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Cook~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Refugee~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Peasant~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Circus Performer~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Town Crier~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Bridgefort~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Daggerford~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Slave~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Mourner~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Sailor~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Mercenary~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~HalflingFemale~ END				//Halfling Female
+						END
+					END	// End Halfling
+					// ********************************************************************************
+					// ********************************* Gnomes ***************************************
+					// ********************************************************************************
+					ACTION_IF (crerace = 6) THEN BEGIN
+						ACTION_IF (cresex = 1) THEN BEGIN
+						// ------------------------------- Male ------------------------------------
+							ACTION_IF (((SkinColor = 109) || 
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Svirfneblin~) == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~Svirfneblin~ END				//Svirfneblin
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Crusader~) == 0)  ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Hawker~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Refugee~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Peasant~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Innkeeper ~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Priest~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Mercenary~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~GnomeMale~ END					//Gnomes Male
+						END
+						ACTION_IF (cresex = 2) THEN BEGIN
+						// ----------------------------- Female --------------------------------
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Crusader~) == 0)  ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Hawker~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Refugee~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Peasant~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Innkeeper ~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Priest~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Mercenary~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~GnomeFemale~ END					//Gnomes Female
+						END
+					END // End Gnomes
+					// ********************************************************************************
+					// ******************************* Half Orc ***************************************
+					// ********************************************************************************
+					ACTION_IF (crerace = 7) THEN BEGIN
+						ACTION_IF (cresex = 1) THEN BEGIN
+						// ------------------------------- Male --------------------------------
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Crusader~) == 0)  ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Bandit~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Guard~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Enforcer~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Soldier~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Storekeep~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Mercenary~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~HalfOrcMale~ END 				//Half Orc Male
+						END
+						ACTION_IF (cresex = 2) THEN BEGIN
+						// ----------------------------- Female --------------------------------
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Crusader~) == 0)  ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Bandit~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Guard~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Enforcer~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Soldier~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Storekeep~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Mercenary~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~HalfOrcFemale~ END 				//Half Orc Female
+						END
+					END	// End Half Orc
+					// *******************************************************************************
+					// ********************************* HUMAN ***************************************
+					// *******************************************************************************
+					ACTION_IF (crerace = 1) THEN BEGIN
+						ACTION_IF (cresex = 2) THEN BEGIN
+							// ----------------------------- Female --------------------------------
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Ghost~) == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Spectral~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Apparition~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~GhostF~ END						// Ghosts Female
+							ACTION_IF ((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Priestess of Umberlee~ == 0)) THEN BEGIN 
+								LAUNCH_ACTION_MACRO ~BadPriestF~ END																						// Bad Priests Female
+							ACTION_IF ((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Priestess~ == 0)) THEN BEGIN 
+								LAUNCH_ACTION_MACRO ~GoodPriestF~ END																						// Good Priests Female
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Dark Moon~) == 0)  ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Heretic Monk~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~BadMonkF~ END 				// Bad Monks Female
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Monk~) == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~GoodMonkF~ END 				// Good Monks Female
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Druid~) == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~DruidF~ END 				// Druid Female
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Red Wizard~) == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~RedWizardF~ END		// Red Wizard Female
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Mage~) == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Magician~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Sorceress~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Wizard~ == 0) AND 
+								!(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Wizard Slayer~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~WizardF~ END				// Wizard Female
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Sailor~) == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Pirate~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Fisherman~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Crewmate~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~SailorF~ END						// Sailors Female
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Flaming Fist~) == 0)) THEN BEGIN 
+								LAUNCH_ACTION_MACRO ~FlamingFistFemale~ END  																				// Flaming Fist Female
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Waterdhavian~) == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~WaterdhavianF~ END	// Waterdhavian Female
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Girl~) == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Child~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~Girl~ END							// Girl
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Courtesan~) == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Dancer~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Harlot~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Wench~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~Courtesan~ END						// Courtesan Female
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Thug~) == 0) ||					
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Shady Character~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Ruffian~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Smuggler~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Bandit~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Thief~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Goon~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Rogue~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Assassin~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~ThiefF~ END						// Thief Female
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Knight~) == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Sentry~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Crusader~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~KnightF~ END						// Knights Female
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Fighter~) == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Bridgefort~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Sharran Overseer~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Militia~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Wizard Slayer~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Gladiator~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Thrall~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Cult~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Bouncer~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Soldier~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Daggerford~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Bounty Hunter~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Coalition~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Mercenary~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Guard~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~FighterF~ END						// Guards Female
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Storekeep~) == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Merchant~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~MerchantF~ END					// Merchants Female
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Noblewoman~) == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Moneylender~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Tax Collector~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Courtier~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Mourner~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Civil Servant~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~Noblewoman~ END				// Noblewoman
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Commoner~) == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Crowd Member~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Human~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Butler~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Food~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Laborer~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Fishwife~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Gardener~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Heckler~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Citizen~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Trainee~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Messenger~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Miner~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Digger~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Peasant~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Refugee~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Tavern Patron~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Tavern Drunk~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Tourist~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Traveler~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Captive Villager~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Cowherd~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Sewer Cleaner~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Patron~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Customer~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Performer~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Camp Follower~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Cook~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Servant~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Usher~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Woman~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Prisoner~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Slave~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Farmer~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Worker~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Townsperson~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~GetRndFemale~ END				// Generic Female
+						END // End Female Human
+						ACTION_IF (cresex = 1) THEN BEGIN
+							// ------------------------------- Male --------------------------------
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Ghost~) == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Spectral~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Apparition~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~GhostM~ END						// Ghosts Male
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Priest of Talos~) == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Priest of Cyric~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~BadPriestM~ END			// Bad Priests Male
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Priest~) == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Cleric of~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~GoodPriestM~ END					// Good Priests Male
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Dark Moon~) == 0)  ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Heretic Monk~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~BadMonkM~ END 				// Bad Monks Male
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Monk~) == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~GoodMonkM~ END 				// Good Monks Male
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Prophet~) == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~ProphetM~ END 			// Eyeless Prophets Male
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Reader~) == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~ReaderM~ END 				// Reader Male
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Druid~) == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~DruidM~ END 				// Druid Male
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Red Wizard~) == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~RedWizardM~ END		// Red Wizard Male
+							ACTION_IF ((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Cowled~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~CowledM~ END					// Cowled Wizards Male
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Bartender~) == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Innkeeper ~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~Bartender~ END					// Bartender Male
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Sailor~) == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Pirate~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Fisherman~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Crewmate~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~SailorM~ END						// Sailors Male
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Tutor~) == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~Tutor~ END					// Tutors Male
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Flaming Fist~) == 0)) THEN BEGIN 
+								LAUNCH_ACTION_MACRO ~FlamingFistMale~ END																					// Flaming Fist Male								
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Waterdhavian~) == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Watcher~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~WaterdhavianM~ END					// Waterdhavian & Watcher Male
+							ACTION_IF (animationindex = 45824) THEN BEGIN LAUNCH_ACTION_MACRO ~BoyB~ END													// Boys Group B
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Boy~) == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Child~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~BoyA~ END							// Boys Group A
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Amnian~) == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~AmnS~ END					// Amnians Male
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Beggar~) == 0) ||
+								((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Slave~ == 0) AND (animationindex = 50688)) ||
+								((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Sacrifice~ == 0) AND (animationindex = 50688))) THEN BEGIN 
+								LAUNCH_ACTION_MACRO ~Beggar~ END																							// Beggar Male
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Mage~) == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Magician~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Sorcerer~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Wizard~ == 0) AND 
+								!(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Wizard Slayer~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~WizardM~ END				// Wizard Male
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Thug~) == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Shady Character~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Ruffian~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Smuggler~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Bandit~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Thief~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Goon~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Rogue~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Assassin~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~ThiefM~ END						// Thief Male
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Knight~) == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Sentry~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Crusader~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~KnightM~ END						// Knights Male
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Fighter~) == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Bridgefort~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Sharran Overseer~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Militia~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Wizard Slayer~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Gladiator~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Footman~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Yeoman~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Thrall~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Cult~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Bouncer~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Soldier~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Daggerford~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Bounty Hunter~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Coalition~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Mercenary~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Guard~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~FighterM~ END						// Guards Male
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Storekeep~) == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Merchant~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~MerchantM~ END					// Merchants Male
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Nobleman~) == 0) ||					
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Moneylender~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Tax Collector~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Mourner~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Courtier~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Civil Servant~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~Nobleman~ END				// Nobleman
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Commoner~) == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Crowd Member~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Human~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Helpful Man~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Waiter~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Butler~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Food~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Laborer~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Gardener~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Heckler~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Citizen~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Trainee~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Messenger~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Miner~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Digger~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Peasant~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Refugee~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Tavern Patron~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Tavern Drunk~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Tourist~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Traveler~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Captive Villager~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Cowherd~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Sewer Cleaner~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Patron~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Customer~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Performer~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Camp Follower~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Cook~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Servant~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Usher~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Prisoner~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Slave~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Farmer~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Worker~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Gamesman~ == 0) ||
+								(~%Crefullname%~ STRING_CONTAINS_REGEXP ~Townsperson~ == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~GetRndMale~ END				// Generic Male
+						END	 // End Male Human
+						ACTION_IF (cresex = 158) THEN BEGIN
+							// ----------------------- Heck If I Know What Sex 158 Means -----------
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Commoner~) == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~GetRndMale~ END			// Generic Male
+							ACTION_IF (((~%Crefullname%~ STRING_CONTAINS_REGEXP ~Guard~) == 0)) THEN BEGIN LAUNCH_ACTION_MACRO ~FighterM~ END				// Guards Male
+						END	// End Heck If I Know What Sex 158 Means
+					END  // Humans
+
+					
+					
+/*
+***********************************************************
+***************************** Category Portraits END ******
+***********************************************************
+*/					
+			END  // INNER ACTION END
+	END  // PATCH_IF END
+	BUT_ONLY
+//Count them up :)
+PRINT ~-------------------------------------------------------------~
+PRINT ~ APPLIED CATEGORY PORTRAITS TO %rnd_cnt% ACTORS~
+PRINT ~-------------------------------------------------------------~

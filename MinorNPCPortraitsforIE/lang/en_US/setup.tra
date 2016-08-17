@@ -1,0 +1,13 @@
+//component name
+@10000 = ~Minor NPC Portraits for IE - core component~
+
+//messages during installation
+@10001 = ~Please be patient this may take a while...~
+@10002 = ~ APPLIED PORTRAITS TO %s9total% ACTORS~
+@10010 = ~This mod requires BG:EE, BG2:EE, IWD:EE or EET~
+@10999 = ~This component requires the main component!~
+
+//component names
+@11000 = ~Sequenced~
+@11050 = ~Random~
+@13000 = ~Category Portraits (Recommended)~

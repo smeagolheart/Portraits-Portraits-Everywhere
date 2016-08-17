@@ -1,0 +1,1629 @@
+//Variable Declarations
+RANDOM_SEED 				~would that it twere so simple~	// Initialize the Random Number Generator
+OUTER_SET rnd_cnt 			= 0								// Counter for Total Number of Random Portraits
+/*
+Each variable states the maximum number of portraits in that category.  See the 'RandomPortraits' Folder for the portraits
+*/
+OUTER_SET AirElement_max	= 3
+OUTER_SET AmnS_max	 		= 5
+OUTER_SET BadMonkF_max	 	= 3
+OUTER_SET BadMonkF_max	 	= 3
+OUTER_SET BadMonkM_max	 	= 6
+OUTER_SET BadPriestF_max	= 3
+OUTER_SET BadPriestM_max	= 2
+OUTER_SET Bartender_max	 	= 12
+OUTER_SET Beggar_max	 	= 11
+OUTER_SET Beholder_max 		= 5
+OUTER_SET BoysA_max	 		= 9
+OUTER_SET BoysB_max	 		= 3
+OUTER_SET CourteseanF_max 	= 20
+OUTER_SET CowledM_max	 	= 3
+OUTER_SET DemonM_max	 	= 4
+OUTER_SET DrowF_max	 		= 19
+OUTER_SET DrowM_max	 		= 19
+OUTER_SET DruidF_max	 	= 4
+OUTER_SET DruidM_max	 	= 4
+OUTER_SET DwarfF_max	 	= 6
+OUTER_SET DwarfM_max	 	= 24
+OUTER_SET ElfF_max	 		= 13
+OUTER_SET ElfM_max	 		= 16
+OUTER_SET FFFemale_max 		= 6
+OUTER_SET FFMale_max 		= 11
+OUTER_SET FighterF_max		= 12
+OUTER_SET FighterM_max		= 28
+OUTER_SET GenericF_max 		= 26
+OUTER_SET GenericM_max 		= 32
+OUTER_SET Genie_max	 		= 10
+OUTER_SET GhostF_max	 	= 3
+OUTER_SET GhostM_max	 	= 15
+OUTER_SET GhoulM_max	 	= 3
+OUTER_SET Girl_max	 		= 14
+OUTER_SET Githyanki_max		= 3
+OUTER_SET Gnoll_max 		= 6
+OUTER_SET GnomeF_max		= 3
+OUTER_SET GnomeM_max		= 8
+OUTER_SET Golem_max 		= 4
+OUTER_SET GoodMonkF_max	 	= 3
+OUTER_SET GoodMonkM_max	 	= 10
+OUTER_SET GoodPriestF_max	= 2
+OUTER_SET GoodPriestM_max	= 6
+OUTER_SET HOrcF_max	 		= 7
+OUTER_SET HOrcM_max	 		= 9
+OUTER_SET HafThF_max	 	= 2
+OUTER_SET HafThM_max	 	= 2
+OUTER_SET HalfEF_max	 	= 4
+OUTER_SET HalfEM_max	 	= 3
+OUTER_SET HalfFemale_max	= 6
+OUTER_SET HalfMale_max	 	= 6
+OUTER_SET HobgobM_max		= 6
+OUTER_SET ImpF_max	 		= 2
+OUTER_SET ImpM_max	 		= 4
+OUTER_SET KnightF_max	 	= 11
+OUTER_SET KnightM_max	 	= 31
+OUTER_SET Kobold_max	 	= 5
+OUTER_SET Lich_max	 		= 14
+OUTER_SET LycanF_max	 	= 6
+OUTER_SET LycanGF_max	 	= 2
+OUTER_SET LycanGM_max	 	= 4
+OUTER_SET LycanM_max	 	= 9
+OUTER_SET MerchantF_max	 	= 3
+OUTER_SET MerchantM_max	 	= 22
+OUTER_SET Mummy_max	 		= 8
+OUTER_SET Nobleman_max 		= 24
+OUTER_SET Noblewoman_max 	= 25
+OUTER_SET OgreF_max	 		= 2
+OUTER_SET OgreM_max	 		= 8
+OUTER_SET OgreMageM_max	 	= 3
+OUTER_SET Orc_max	 		= 10
+OUTER_SET PlanetF_max	 	= 3
+OUTER_SET PlanetM_max	 	= 2
+OUTER_SET ProphetM_max	 	= 3
+OUTER_SET ReaderM_max		= 3
+OUTER_SET RedWizardF_max 	= 2
+OUTER_SET RedWizardM_max	= 3
+OUTER_SET SahuaginF_max	 	= 2
+OUTER_SET SahuaginM_max	 	= 4
+OUTER_SET SailorF_max	 	= 4
+OUTER_SET SailorM_max	 	= 4
+OUTER_SET Skele_max 		= 11
+OUTER_SET StrohmGuard_max 	= 5
+OUTER_SET Svirf_max	 		= 3
+OUTER_SET ThiefF_max	 	= 6
+OUTER_SET ThiefM_max	 	= 21
+OUTER_SET TiefF_max	 		= 2
+OUTER_SET TiefM_max	 		= 2
+OUTER_SET Troll_max	 		= 9
+OUTER_SET Tutor_max 		= 3
+OUTER_SET UrfElement_max	= 2
+OUTER_SET WatcherM_max	 	= 4
+OUTER_SET WaterdF_max	 	= 2
+OUTER_SET WaterdM_max	 	= 9
+OUTER_SET WizardF_max	 	= 5
+OUTER_SET WizardM_max	 	= 12
+OUTER_SET Zombie_max 		= 7
+
+/*
+OUTER_SET _max	 	= 
+*/
+DEFINE_ACTION_MACRO ~RndChecker~ BEGIN
+	LOCAL_SET rndMin = 1
+	LOCAL_SET rndMax = 0
+	LOCAL_SET rndRemain = 0
+	LOCAL_SET rangeCount = 0
+	LOCAL_SET idx = 0
+	LOCAL_SET value = 0
+	ACTION_IF IsRnd = 1 THEN BEGIN
+		// Randomly Apply Random Portraits...
+		//OUTER_SET EVAL "%group%_cnt" = RANDOM ( 1 EVAL "%group%_max" )	
+		// Code Courtesy of argent77 based on idea by lynx @ Gibberlings3 forum.
+		// variables
+		ACTION_IF (NOT VARIABLE_IS_SET EVAL "%group%_max")
+		BEGIN
+			FAIL ~Upper bound not defined.~
+		END
+
+		ACTION_IF (NOT VARIABLE_IS_SET EVAL "%group%_remain") BEGIN
+			OUTER_SET EVAL "%group%_remain" = 0
+		END
+
+		//OUTER_SET rndMin = EVAL "%group%_min"
+		OUTER_SET rndMax = EVAL "%group%_max"
+		OUTER_SET rndRemain = EVAL "%group%_remain"
+		OUTER_SET rangeCount = rndMax - rndMin + 1
+
+		// array initialization
+		ACTION_IF (rndRemain = 0) BEGIN
+			LOG ~DEBUG: Initializing random list: %group%~
+
+			OUTER_WHILE (rndRemain < rangeCount) BEGIN
+				OUTER_SET value = RANDOM (rndMin rndMax)
+				OUTER_FOR (idx = 0; idx < rndRemain; ++idx) BEGIN
+					ACTION_IF (EVAL "%group%Array_%idx%" = value) BEGIN
+						OUTER_SET value = rndMin - 1
+						OUTER_SET idx = rndRemain
+					END
+				END
+				ACTION_IF (value >= rndMin) BEGIN
+					OUTER_SET EVAL "%group%Array_%rndRemain%" = value
+					OUTER_SET rndRemain += 1
+				END
+			END
+		END
+		// "%group%_cnt" contains the new random value
+		OUTER_SET rndRemain -= 1
+		OUTER_SET EVAL "%group%_remain" = rndRemain
+		OUTER_SET EVAL "%group%_cnt" = EVAL "%group%Array_%rndRemain%"		
+	END
+	ELSE BEGIN
+		// Sequentially Apply Random Portraits...
+		OUTER_SET EVAL "%group%_cnt" += 1					
+		ACTION_IF EVAL "%group%_cnt" > EVAL "%group%_max" THEN BEGIN	// Rewind count back to the first if the last number portrait has been reached
+			OUTER_SET EVAL "%group%_cnt" = 0
+		END										
+	END
+	OUTER_SET rnd_cnt += 1													// Counter for Total Category Portraits Applied
+END
+//*************************************************************************************************************
+//*************************************************************************************************************
+// ********************************************Portrait Pools**************************************************
+//*************************************************************************************************************
+//*************************************************************************************************************
+// Generic Male
+DEFINE_ACTION_MACRO ~GetRndMale~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN			
+		OUTER_TEXT_SPRINT group ~GenericM~
+		LAM RndChecker													
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9MLE"							// Filename
+			"S9FLD"    				= "Commoners"						// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Generic Male
+// Generic Female
+DEFINE_ACTION_MACRO ~GetRndFemale~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN			
+		OUTER_TEXT_SPRINT group ~GenericF~
+		LAM RndChecker													
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9FEM"							// Filename
+			"S9FLD"    				= "Commoners"						// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END
+END  // End Generic Female
+// Nobleman
+DEFINE_ACTION_MACRO ~Nobleman~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN			
+		OUTER_TEXT_SPRINT group ~Nobleman~
+		LAM RndChecker													
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9NBM"							// Filename
+			"S9FLD"    				= "Nobles"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END								
+END  // End Nobleman
+// Noblewoman
+DEFINE_ACTION_MACRO ~Noblewoman~ BEGIN	
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN			
+		OUTER_TEXT_SPRINT group ~Noblewoman~
+		LAM RndChecker													
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9NBW"							// Filename
+			"S9FLD"    				= "Nobles"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END
+END  // End Noblewoman	
+// Merchant Male
+DEFINE_ACTION_MACRO ~MerchantM~ BEGIN	
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN			
+		OUTER_TEXT_SPRINT group ~MerchantM~
+		LAM RndChecker													
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9MRM"							// Filename
+			"S9FLD"    				= "Merchants"						// Foldername
+		END	
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Merchant Male
+// Merchant Female
+DEFINE_ACTION_MACRO ~MerchantF~ BEGIN	
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN			
+		OUTER_TEXT_SPRINT group ~MerchantM~
+		LAM RndChecker													
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9MRF"							// Filename
+			"S9FLD"    				= "Merchants"						// Foldername
+		END	
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Merchant Female
+// Boy A
+DEFINE_ACTION_MACRO ~BoyA~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN			
+		OUTER_TEXT_SPRINT group ~BoysA~
+		LAM RndChecker													
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9BYA"							// Filename
+			"S9FLD"    				= "Kids"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Boy A
+// Boy B
+DEFINE_ACTION_MACRO ~BoyB~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN			
+		OUTER_TEXT_SPRINT group ~BoysB~
+		LAM RndChecker													
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9BYB"							// Filename
+			"S9FLD"    				= "Kids"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Boy B
+// Flaming Fist Male
+DEFINE_ACTION_MACRO ~FlamingFistMale~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN			
+		OUTER_TEXT_SPRINT group ~FFMale~
+		LAM RndChecker													
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9FFM"							// Filename
+			"S9FLD"    				= "FlamingFist"						// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Flaming Fist Male	
+// Flaming Fist Female
+DEFINE_ACTION_MACRO ~FlamingFistFemale~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN			
+		OUTER_TEXT_SPRINT group ~FFFemale~
+		LAM RndChecker													
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9FFF"							// Filename
+			"S9FLD"    				= "FlamingFist"						// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Flaming Fist Female
+// Courtesan Female
+DEFINE_ACTION_MACRO ~Courtesan~ BEGIN																		
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~CourteseanF~
+		LAM RndChecker													
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9CORT"							// Filename
+			"S9FLD"    				= "Courtesan"						// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Courtesan Female
+// Tutor Male
+DEFINE_ACTION_MACRO ~Tutor~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN			
+		OUTER_TEXT_SPRINT group ~Tutor~
+		LAM RndChecker													
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9TOOT"							// Filename
+			"S9FLD"    				= "Tutor"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Tutors Male
+// Drow Male
+DEFINE_ACTION_MACRO ~DrowMale~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN			
+		OUTER_TEXT_SPRINT group ~DrowM~
+		LAM RndChecker													
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9DRWM"							// Filename
+			"S9FLD"    				= "Drow"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END
+END  // End Drow Male
+// Dwarf Male
+DEFINE_ACTION_MACRO ~DwarfMale~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN			
+		OUTER_TEXT_SPRINT group ~DwarfM~
+		LAM RndChecker													
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9DFWM"							// Filename
+			"S9FLD"    				= "Dwarf"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Dwarf Male
+// Dwarf Female
+DEFINE_ACTION_MACRO ~DwarfFemale~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN			
+		OUTER_TEXT_SPRINT group ~DwarfF~
+		LAM RndChecker													
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9DFWF"							// Filename
+			"S9FLD"    				= "Dwarf"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Dwarf Female
+// Drow Female
+DEFINE_ACTION_MACRO ~DrowFemale~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN			
+		OUTER_TEXT_SPRINT group ~DrowF~
+		LAM RndChecker													
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9DRWF"							// Filename
+			"S9FLD"    				= "Drow"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Drow Female
+// Zombie Male
+DEFINE_ACTION_MACRO ~ZombieMale~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN			
+		OUTER_TEXT_SPRINT group ~Zombie~
+		LAM RndChecker													
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9ZOM"							// Filename
+			"S9FLD"    				= "ZombieMale"						// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Zombie Male
+// Lich Male
+DEFINE_ACTION_MACRO ~LichMale~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN			
+		OUTER_TEXT_SPRINT group ~Lich~
+		LAM RndChecker													
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9LICH"							// Filename
+			"S9FLD"    				= "Lich"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Lich Male
+// Ghoul Male
+DEFINE_ACTION_MACRO ~GhoulMale~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN			
+		OUTER_TEXT_SPRINT group ~GhoulM~
+		LAM RndChecker													
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9GHUL"							// Filename
+			"S9FLD"    				= "Ghouls"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Ghoul Male
+// Skeletons
+DEFINE_ACTION_MACRO ~Skeletons~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN			
+		OUTER_TEXT_SPRINT group ~Skele~
+		LAM RndChecker													
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9SKELE"							// Filename
+			"S9FLD"    				= "Skeletons"						// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Skeletons
+// Githyanki Male
+DEFINE_ACTION_MACRO ~GithyankiMale~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN			
+		OUTER_TEXT_SPRINT group ~Githyanki~
+		LAM RndChecker													
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9GITH"							// Filename
+			"S9FLD"    				= "Githyanki"						// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Githyanki Male
+// Golem Male
+DEFINE_ACTION_MACRO ~GolemMale~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN			
+		OUTER_TEXT_SPRINT group ~Golem~
+		LAM RndChecker													
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9GOL"							// Filename
+			"S9FLD"    				= "Golem"						// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Golem Male
+// Gnoll
+DEFINE_ACTION_MACRO ~Gnoll~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN			
+		OUTER_TEXT_SPRINT group ~Gnoll~
+		LAM RndChecker													
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9GNL"							// Filename
+			"S9FLD"    				= "Gnoll"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Gnoll
+// StrohmGuard Effreti
+DEFINE_ACTION_MACRO ~StrohmGuard~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN			
+		OUTER_TEXT_SPRINT group ~StrohmGuard~
+		LAM RndChecker													
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9EGRD"							// Filename
+			"S9FLD"    				= "Genie"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End StrohmGuard Effreti
+// Genie
+DEFINE_ACTION_MACRO ~GenieMale~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN			
+		OUTER_TEXT_SPRINT group ~Genie~
+		LAM RndChecker													
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9GENI"							// Filename
+			"S9FLD"    				= "Genie"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Genie
+// Mummy
+DEFINE_ACTION_MACRO ~Mummy~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN			
+		OUTER_TEXT_SPRINT group ~Mummy~
+		LAM RndChecker													
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9MUMM"							// Filename
+			"S9FLD"    				= "Mummy"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Mummy
+// Beholders
+DEFINE_ACTION_MACRO ~Beholder~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN			
+		OUTER_TEXT_SPRINT group ~Beholder~
+		LAM RndChecker													
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9BEH"							// Filename
+			"S9FLD"    				= "Beholders"						// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Beholders
+// Troll Male
+DEFINE_ACTION_MACRO ~TrollMale~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN			
+		OUTER_TEXT_SPRINT group ~Troll~
+		LAM RndChecker													
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9TRL"							// Filename
+			"S9FLD"    				= "OGT"								// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Troll Male
+// Orc Male
+DEFINE_ACTION_MACRO ~OrcMale~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN			
+		OUTER_TEXT_SPRINT group ~Orc~
+		LAM RndChecker													
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9ORC"							// Filename
+			"S9FLD"    				= "OGT"								// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Orc Male
+// Orc Female
+DEFINE_ACTION_MACRO ~OrcFemale~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN			
+		OUTER_TEXT_SPRINT group ~OrcF~
+		LAM RndChecker													
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9ORCF"							// Filename
+			"S9FLD"    				= "OGT"								// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Orc Female
+// Kobold
+DEFINE_ACTION_MACRO ~Kobold~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN			
+		OUTER_TEXT_SPRINT group ~Kobold~
+		LAM RndChecker													
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9KBLD"							// Filename
+			"S9FLD"    				= "OGT"								// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Kobold
+// Amnian Soldiers
+DEFINE_ACTION_MACRO ~AmnS~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~AmnS~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9AMN"							// Filename
+			"S9FLD"    				= "AmnSoldiers"						// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Amnian Soldiers
+// Light Armored Guard & Fighter types Male
+DEFINE_ACTION_MACRO ~FighterM~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~FighterM~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9LFM"							// Filename
+			"S9FLD"    				= "Fighters"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Light Armored Guard & Fighter types Male
+// Light Armored Guard & Fighter types Female
+DEFINE_ACTION_MACRO ~FighterF~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~FighterF~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9LFF"							// Filename
+			"S9FLD"    				= "Fighters"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Light Armored Guard & Fighter types Female
+// Bartender Male
+DEFINE_ACTION_MACRO ~Bartender~ BEGIN	
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN			
+		OUTER_TEXT_SPRINT group ~Bartender~
+		LAM RndChecker													
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9BART"							// Filename
+			"S9FLD"    				= "Bartenders"							// Foldername
+		END	
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Bartender Male
+// Beggar
+DEFINE_ACTION_MACRO ~Beggar~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~Beggar~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9BEGG"							// Filename
+			"S9FLD"    				= "Beggars"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Beggar
+// Girl
+DEFINE_ACTION_MACRO ~Girl~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~Girl~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9GIRL"							// Filename
+			"S9FLD"    				= "Kids"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Girl
+// Thieves Male
+DEFINE_ACTION_MACRO ~ThiefM~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~ThiefM~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9TFM"							// Filename
+			"S9FLD"    				= "Rogues"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Thieves Male
+// Thieves Female
+DEFINE_ACTION_MACRO ~ThiefF~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~ThiefF~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9TFF"							// Filename
+			"S9FLD"    				= "Rogues"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Thieves Female
+// Good Monk Male
+DEFINE_ACTION_MACRO ~GoodMonkM~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~GoodMonkM~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9GMM"							// Filename
+			"S9FLD"    				= "Monks"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Good Monk Male
+// Good Monk Female
+DEFINE_ACTION_MACRO ~GoodMonkF~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~GoodMonkF~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9GMF"							// Filename
+			"S9FLD"    				= "Monks"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Good Monk Female
+// Bad Monk Male
+DEFINE_ACTION_MACRO ~BadMonkM~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~BadMonkM~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9BMM"							// Filename
+			"S9FLD"    				= "Monks"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Bad Monk Male
+// Bad Monk Female
+DEFINE_ACTION_MACRO ~BadMonkF~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~BadMonkF~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9BMF"							// Filename
+			"S9FLD"    				= "Monks"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Bad Monk Female
+// Sailor Male
+DEFINE_ACTION_MACRO ~SailorM~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~SailorM~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9SLRM"							// Filename
+			"S9FLD"    				= "Sailors"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End 
+// Sailor Female
+DEFINE_ACTION_MACRO ~SailorF~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~SailorF~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9SLRF"							// Filename
+			"S9FLD"    				= "Sailors"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End 
+// Knights Male
+DEFINE_ACTION_MACRO ~KnightM~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~KnightM~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9KM"							// Filename
+			"S9FLD"    				= "Knights"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Knights Male
+// Knights Female
+DEFINE_ACTION_MACRO ~KnightF~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~KnightF~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9KF"							// Filename
+			"S9FLD"    				= "Knights"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Knights Female
+// Elf Male
+DEFINE_ACTION_MACRO ~ElfMale~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~ElfM~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9ELFM"							// Filename
+			"S9FLD"    				= "Elves"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Elf Male 
+// Elf Female
+DEFINE_ACTION_MACRO ~ElfFemale~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~ElfF~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9ELFF"							// Filename
+			"S9FLD"    				= "Elves"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Elf Female
+// Half Orc Male
+DEFINE_ACTION_MACRO ~HalfOrcMale~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~HOrcM~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9HOM"							// Filename
+			"S9FLD"    				= "HalfOrcs"						// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Half Orc Male
+// Half Orc Female
+DEFINE_ACTION_MACRO ~HalfOrcFemale~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~HOrcF~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9HOF"							// Filename
+			"S9FLD"    				= "HalfOrcs"						// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Half Orc Female
+// Halfling Male
+DEFINE_ACTION_MACRO ~HalflingMale~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~HalfMale~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9HFM"							// Filename
+			"S9FLD"    				= "Halflings"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Halfling Male
+// Halfling Female
+DEFINE_ACTION_MACRO ~HalflingFemale~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~HalfFemale~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9HFF"							// Filename
+			"S9FLD"    				= "Halflings"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Halfling Female
+// Half Elf Male
+DEFINE_ACTION_MACRO ~HalfElfMale~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~HalfEM~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9HEM"							// Filename
+			"S9FLD"    				= "HalfElves"						// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Half Elf Male
+// Half Elf Female
+DEFINE_ACTION_MACRO ~HalfElfFemale~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~HalfEF~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9HEF"							// Filename
+			"S9FLD"    				= "HalfElves"						// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Half Elf Female
+// Gnome Male
+DEFINE_ACTION_MACRO ~GnomeMale~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~GnomeM~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9GNM"							// Filename
+			"S9FLD"    				= "Gnomes"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Gnome Male
+// Gnome Female
+DEFINE_ACTION_MACRO ~GnomeFemale~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~GnomeF~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9GNF"							// Filename
+			"S9FLD"    				= "Gnomes"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Gnome Female
+// Svirfneblin
+DEFINE_ACTION_MACRO ~Svirfneblin~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~Svirf~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9SVN"							// Filename
+			"S9FLD"    				= "Gnomes"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Svirfneblin
+// Ghosts Male
+DEFINE_ACTION_MACRO ~GhostM~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~GhostM~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9GSTM"							// Filename
+			"S9FLD"    				= "Ghosts"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Ghosts Male
+// Ghosts Female
+DEFINE_ACTION_MACRO ~GhostF~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~GhostF~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9GSTF"							// Filename
+			"S9FLD"    				= "Ghosts"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Ghosts Female
+// Waterdhavian Male
+DEFINE_ACTION_MACRO ~WaterdhavianM~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~WaterdM~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9WDVM"							// Filename
+			"S9FLD"    				= "Knights"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Waterdhavian Male
+// Waterdhavian Male
+DEFINE_ACTION_MACRO ~WaterdhavianF~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~WaterdF~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9WDVF"							// Filename
+			"S9FLD"    				= "Knights"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Waterdhavian Female
+// Lycan Male
+DEFINE_ACTION_MACRO ~LycanMale~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~LycanM~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9WWCM"							// Filename
+			"S9FLD"    				= "Commoners"						// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Lycan Male
+// Lycan Female
+DEFINE_ACTION_MACRO ~LycanFemale~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~LycanF~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9WWCF"							// Filename
+			"S9FLD"    				= "Commoners"						// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Lycan Female
+// Lycan Fighter Male
+DEFINE_ACTION_MACRO ~LycanFtM~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~LycanGM~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9LFWM"							// Filename
+			"S9FLD"    				= "Fighters"						// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Lycan Fighter Male
+// Planatar Male
+DEFINE_ACTION_MACRO ~PlanetMale~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~PlanetM~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9PLANM"							// Filename
+			"S9FLD"    				= "Planatar"						// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Planatar Male
+DEFINE_ACTION_MACRO ~PlanetFem~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~PlanetF~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9PLANF"							// Filename
+			"S9FLD"    				= "Planatar"						// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Planatar Female
+// Ogre Male
+DEFINE_ACTION_MACRO ~OgreM~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~OgreM~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9OGRM"							// Filename
+			"S9FLD"    				= "Ogres"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Ogre Male 
+// Ogre Mage Male
+DEFINE_ACTION_MACRO ~OgreMageM~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~OgreMageM~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9OGMM"							// Filename
+			"S9FLD"    				= "Ogres"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Ogre Mage Male
+// Ogre Female
+DEFINE_ACTION_MACRO ~OgreF~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~OgreF~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9OGRF"							// Filename
+			"S9FLD"    				= "Ogres"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Ogre Female
+// Tiefling Male
+DEFINE_ACTION_MACRO ~TiefM~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~TiefM~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9TIEFM"							// Filename
+			"S9FLD"    				= "Tieflings"						// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Tiefling Male
+// Tiefling Female
+DEFINE_ACTION_MACRO ~TiefF~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~TiefF~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9TIEFF"							// Filename
+			"S9FLD"    				= "Tieflings"						// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Tiefling Female
+// Imp Male
+DEFINE_ACTION_MACRO ~ImpM~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~ImpM~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9IMPM"							// Filename
+			"S9FLD"    				= "Imps"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Imp Male
+// Imp Female
+DEFINE_ACTION_MACRO ~ImpF~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~ImpF~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9IMPF"							// Filename
+			"S9FLD"    				= "Imps"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Imp Female
+// Sahuagin Male
+DEFINE_ACTION_MACRO ~SahuaginM~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~SahuaginM~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9SHARM"							// Filename
+			"S9FLD"    				= "Sahuagins"						// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Sahuagin Male
+// Sahuagin Female
+DEFINE_ACTION_MACRO ~SahuaginF~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~SahuaginF~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9SHARF"							// Filename
+			"S9FLD"    				= "Sahuagins"						// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Sahuagin Female
+// Demon Male
+DEFINE_ACTION_MACRO ~DemonM~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~DemonM~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9DEMM"							// Filename
+			"S9FLD"    				= "Demons"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Demon Male
+// Hobgoblin Male
+DEFINE_ACTION_MACRO ~HobgobM~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~HobgobM~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9HOBM"							// Filename
+			"S9FLD"    				= "OGT"								// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Hobgoblin Male
+// Wizard Male
+DEFINE_ACTION_MACRO ~WizardM~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~WizardM~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9WIZM"							// Filename
+			"S9FLD"    				= "Wizards"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Wizard Male
+// Red Wizard Male
+DEFINE_ACTION_MACRO ~RedWizardM~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~RedWizardM~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9RWZM"							// Filename
+			"S9FLD"    				= "Wizards"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Red Wizard Male
+// Wizard Female
+DEFINE_ACTION_MACRO ~WizardF~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~WizardF~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9WIZF"							// Filename
+			"S9FLD"    				= "Wizards"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Wizard Female
+// Red Wizard Female
+DEFINE_ACTION_MACRO ~RedWizardF~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~RedWizardF~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9RWZF"							// Filename
+			"S9FLD"    				= "Wizards"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Red Wizard Female
+// Druid Male
+DEFINE_ACTION_MACRO ~DruidM~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~DruidM~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9DRUM"							// Filename
+			"S9FLD"    				= "Druids"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Druid Male
+// Druid Female
+DEFINE_ACTION_MACRO ~DruidF~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~DruidF~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9DRUF"							// Filename
+			"S9FLD"    				= "Druids"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Druid Female
+// Good Priest Male
+DEFINE_ACTION_MACRO ~GoodPriestM~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~GoodPriestM~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9PREM"							// Filename
+			"S9FLD"    				= "Priests"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Good Priest Male
+// Good Priest Female
+DEFINE_ACTION_MACRO ~GoodPriestF~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~GoodPriestF~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9PREF"							// Filename
+			"S9FLD"    				= "Priests"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Good Priest Female
+// Bad Priest Male
+DEFINE_ACTION_MACRO ~BadPriestM~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~BadPriestM~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9PRBM"							// Filename
+			"S9FLD"    				= "Priests"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Bad Priest Male
+// Bad Priest Female
+DEFINE_ACTION_MACRO ~BadPriestF~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~BadPriestF~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9PRBF"							// Filename
+			"S9FLD"    				= "Priests"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Bad Priest Female
+// Cowled Wizard Male
+DEFINE_ACTION_MACRO ~CowledM~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~CowledM~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9COWL"							// Filename
+			"S9FLD"    				= "Wizards"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Cowled Wizard Male
+// 
+DEFINE_ACTION_MACRO ~AirElement~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~AirElement~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9AIR"							// Filename
+			"S9FLD"    				= "Elementals"						// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End 
+DEFINE_ACTION_MACRO ~UrfElement~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~UrfElement~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9URF"							// Filename
+			"S9FLD"    				= "Elementals"						// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End 
+// Reader Male
+DEFINE_ACTION_MACRO ~ReaderM~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~ReaderM~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9READ"							// Filename
+			"S9FLD"    				= "Readers"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Reader Male
+// Prophet Male
+DEFINE_ACTION_MACRO ~ProphetM~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~ProphetM~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9PROPM"							// Filename
+			"S9FLD"    				= "Prophets"						// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Prophet Male
+// Watcher Male
+DEFINE_ACTION_MACRO ~WatcherM~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~Kobold~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9WATCH"							// Filename
+			"S9FLD"    				= "Readers"							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Watcher Male
+// Halfling Thief Male
+DEFINE_ACTION_MACRO ~HafThM~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~HafThM~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9HFTM"							// Filename
+			"S9FLD"    				= "Halflings"						// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Halfling Thief Male
+// Halfling Thief Female
+DEFINE_ACTION_MACRO ~HafThF~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~HafThF~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= "S9HFTF"							// Filename
+			"S9FLD"    				= "Halflings"						// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End Halfling Thief Female
+/*
+// 
+DEFINE_ACTION_MACRO ~Kobold~ BEGIN
+	ACTION_IF IsPortraitSet = 0 THEN BEGIN
+		OUTER_TEXT_SPRINT group ~Kobold~
+		LAM RndChecker
+		LAF ~GetRndCatPic~
+			INT_VAR
+			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
+			STR_VAR
+			"S9FN"    				= ""							// Filename
+			"S9FLD"    				= ""							// Foldername
+		END
+		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
+	END	
+END  // End 
+*/
+
+
+//*************************************************************************************************************
+//*************************************************************************************************************
