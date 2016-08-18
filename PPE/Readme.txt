@@ -1,0 +1,131 @@
+Portraits Portraits Everywhere
+by Smeagolheart & bob_veng
+===================================================================================================================
+===================================================================================================================
+WHAT IS IT?:
+-----------------------------------------------------
+Portraits Portraits Everywhere (PPE) - core component
+-----------------------------------------------------
+The core component of this mod adds portraits to speaking NPCs in the Enhanced Edition Infinity Engine games.  It can be 
+installed on multiple platforms including Enhanced Edition Trilogy (EET), Baldur's Gate 1 Enhanced Edition including Siege 
+of Dragonspear, Baldur's Gate 2 Enhanced Edition, and Icewind Dale Enhanced Edition.  The mod can add representative portraits 
+for all 4617 speaking creatures throughout these games so that when you speak to them, these NPC characters that inhabit these 
+rich worlds will appear a little bit more alive.
+
+If any of the portraits are not to your satisfaction due to quality or you feel that the portrait does not
+match the in game NPC, feel free to post on the forums for potential inclusion in future updates.  If there is a future patch to 
+the game, it's a good idea to reinstall this mod.  Keep in mind that when installing or reinstalling this mod, NPCs on areas 
+you've previously visited won't get portraits, but areas and NPCs you have not yet visited will get portraits.
+
+If you start a new game, then all NPCs that should get portraits will get them.
+
+-----------------------------------------------------
+Category Portraits (Recommended)
+-----------------------------------------------------
+This mod has an optional Category Portraits component to assign portraits from a pool of random portraits to actors that are not 
+assigned specific portraits by the main component.  This component is highly recommended and covers beings that are genericly named.
+For example, human characters named "Thief" or "Mugger" will get portraits from the male or female Rogue pool, characters named 
+"Commoner" or "Peasant" will get portraits from the commoners pool, and "Drow" will get portraits from either the male or female Drow 
+pool.   There are more than ninety pools of random portraits that range from a few portraits to over 20.  There are more breakdowns 
+for groups of Humans than there are for other groups.  Please note that you may get repetition in portraits if you speak to multiple 
+characters as once a pool of portraits is exhausted, then an additional round of picks from the portrait pool will be assigned to 
+additional NPCs.
+
+There are two ways to install the Category Portraits component - Sequentially or Randomly.  If you install the component 'Sequentially' 
+then Portraits from the Pool are assigned in numerical order to allow for reproducable results.  That means that when you speak to 
+"Mugger" in the dark alley, he should look the same if you were to reinstall the mod.   There is also a Random option to grab a random 
+portrait from the pool so that our friend the "Mugger" might get a different portrait if this component was installed a second time.  
+If the random option is selected then a random pick will be selected.   The way the random picked works is that all possible numbers 
+from a pool are used before a second pick of the same number is picked meaning that you should not get random picks out of a group of 5 
+with the same number being used until all 5 of the portraits have been picked.  This component can also affect mod added creatures.  
+For example if installed after other mods, then matches from those mods of characters specifically named "Mugger" would get portraits 
+from the Rogue pool.  Please note that while other mods may be affected, their development and whether they name their rogue characters 
+specifically "Mugger" or one of the other key search words to match the algorithim in this mod is beyond my control so results may vary.
+This is optimized for vanilla supported games but you might get some decent but not perfect results for mod added characters.
+
+-----------------------------------------------------
+Generic Portraits (Optional)
+-----------------------------------------------------
+This optional component can be installed after installing other mods to add generic portraits to the base races. 
+Please note that Generic Portraits (Optional) component will not do anything if you have no Mod added NPCs because the Main Component 
+and the Category Portraits component covers all NPCs in the base supported games.  
+
+The Generic Portraits component will apply portraits from random generic pools for the following races: Human, Elf, Half-Elf, Dwarf, 
+Halfling, Gnome, and Half-Orc.  There are no breakdowns for Human Muggers or other subgroups.  For example, if a mod added a human 
+character named "Charlatan", that name would not match the search parameters for the Category Portraits component for Rogues or any other 
+group but that character could get a generic portrait from this Component. 
+
+Due to the varying quality of mods and the vast number of potential mods available, there is very little chance that this component will 
+act perfectly for you.  As an example, Half Orcs were not available in the original Baldur's Gate 1 but there are mods that add characters 
+coded as human to Baldur's Gate 1 that use dialogue to describe the character as being a Half Orc.  That character would match as a human 
+and get a generic human portrait from this component due to the creature being coded as a human to the game engine.
+
+As with the Category Portraits component, this component can be installed either sequentially or randomly.
+
+-----------------------------------------------------
+CREDITS and Additional Information
+-----------------------------------------------------
+
+This mod is based on older mods for Baldur's Gate prior to the EE editions had mods that included small portraits for some NPCs.   
+The pictures in these mods are lower resolution than the ones carefully selected for this mod.  Some of these older mods for classic 
+Baldur's Gate with smaller pictures that directly inspired this project are:
+Gerri's BGT NPC Portraits ( https://kerzenburg.baldurs-gate.eu/downloads.php?id=69 )
+BG1NPC ( http://www.gibberlings3.net/bg1npc/ )
+
+Sources of the pictures include Neverwinter Nights portraits found online, searches for baldur's gate and IWD portraits, and as a last 
+resort search engines were used to round out the collection.
+ 
+If there are any particular portraits that need to be removed you don't wish them to be featured in this work, let me know and 
+the pictures will be removed. If you have any suggestions for submissions or changes, please feel free to comment in the discussion 
+forum.
+
+This mod is distributed freely and not for any commercial purpose non-profit.  This mod was not developed, supported, 
+or endorsed by BioWare, Interplay/Black Isle, Beamdog or any other official agency. Portraits remain the copyright of 
+their respective rights holders.  
+
+If there are any copyright issues or this statement needs revision then please contact me to let me know what to do 
+about it.  The purpose of this mod is not to make money but to advances knowledge and progress of the arts through 
+the addition of something new onto a great game. 
+
+Special thanks to bob_veng on the baldur's gate.com forums for assistance recoloring, adjusting, selecting and creating new portraits 
+for this mod.
+
+Thank you all and enjoy,
+Smeagol
+
+===================================================================================================================
+===================================================================================================================
+Technical Details and how you can add your own portraits
+--------------------------------------------------------
+All pictures are 169x266 or greater.   
+
+The table in (mod folder)\tbl\bgee.tbl lists the creatures/actors and portrait name.  
+You can reference the creature name to the actor in tools such as NearInfinity.
+
+The Portrait names in the tbl are filenames in the portrait folder.
+===================================================================================================================
+===================================================================================================================
+KNOWN ISSUES
+--------------------------------------------------------
+None at this time
+===================================================================================================================
+===================================================================================================================
+Thanks everyone you know who you are, I hope you appreciate the hard work of the artists as I do.
+
+Additional thanks to
+lynx and argent77 from Gibberlings3 Forums for coding assistance.
+Thank you to Mr2150, Cahir, AstroBryGuy, Thels, lefreut, and others for their input and assistance on the Baldur's 
+Gate Forums.
+The mod name came as a suggestion by Cahir.
+"Vampirized" NPC portraits provided by lefreut.
+===================================================================================================================
+
+Version History:
+V1.0 20 Aug 16
+- Initial Release
+
+===================================================================================================================
+forum
+https://forums.beamdog.com/discussion/55237/mod-minor-npc-portraits-for-bgee
+===================================================================================================================
+===================================================================================================================

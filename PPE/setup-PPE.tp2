@@ -1,12 +1,12 @@
-BACKUP ~MinorNPCPortraitsforIE/backup~
+BACKUP ~PPE/backup~
 AUTHOR ~Smeagolheart&bob_veng@forum.baldursgate.com~
 VERSION ~1.0~
 LANGUAGE ~English~
 	~en_US~
-	~MinorNPCPortraitsforIE/lang/en_US/setup.tra~
+	~PPE/lang/en_US/setup.tra~
 
 BEGIN @10000
-	REQUIRE_PREDICATE GAME_IS ~bg2ee iwdee bgee eet~ @10010
+	REQUIRE_PREDICATE GAME_IS ~bgee bg2ee iwdee eet~ @10010
 	DESIGNATED 0
 
 	DEFINE_ACTION_MACRO ~Addpic~ BEGIN
@@ -26,10 +26,10 @@ BEGIN @10000
 	PRINT @10001
 	OUTER_SET s9total=0
 
-	ACTION_IF GAME_IS ~bgee eet~ THEN BEGIN
-		// Copy these items for BG1
+	// BG1 Specific Actions
+	ACTION_IF GAME_IS ~bgee eet~ THEN BEGIN		
 		COPY ~%MOD_FOLDER%/copy/BG1~ ~override~
-		// Add Portrait Swapping script
+		// Portrait Swapping scripts
 		COMPILE ~%MOD_FOLDER%/dialogue/thalan.d~
 		COMPILE ~%MOD_FOLDER%/dialogue/dopdur1.d~
 		COMPILE ~%MOD_FOLDER%/dialogue/dopdur2.d~
@@ -37,11 +37,11 @@ BEGIN @10000
 		COMPILE ~%MOD_FOLDER%/dialogue/elmins4.d~
 		//COMPILE ~%MOD_FOLDER%/dialogue/rashad.d~
 	END
-
+	// BG2 Specific Actions
+	// including overwriting the Low Res / Quality Default BG2 Portraits for Bhaalspawn
 	ACTION_IF GAME_IS ~bg2ee eet~ THEN BEGIN
-		// Copy files including overwriting the Low Res / Quality Default BG2 Portraits for Bhaalspawn
 		COPY ~%MOD_FOLDER%/copy/BG2~ ~override~
-		// Add Portrait Swapping script
+		// Portrait Swapping scripts
 		COMPILE ~%MOD_FOLDER%/dialogue/shape.d~
 	END
 	
@@ -63,17 +63,17 @@ BEGIN @10000
 	PRINT @10002
 	PRINT ~-------------------------------------------------------------~
 
-BEGIN @11000
+BEGIN @20000
 	REQUIRE_PREDICATE GAME_IS ~bg2ee iwdee bgee eet~ @10010
-	REQUIRE_COMPONENT ~MINORNPCPORTRAITSFORIE/SETUP-MINORNPCPORTRAITSFORIE.TP2~ ~0~ @10999
+	REQUIRE_COMPONENT ~PPE/SETUP-PPE.TP2~ ~0~ @10999
 	DESIGNATED 100
 	SUBCOMPONENT @13000	
 	OUTER_SET IsRnd 		= 0		// Not Random
 	INCLUDE ~%MOD_FOLDER%/lib/S9MP-CLib.tph~
 	
-BEGIN @11050
+BEGIN @20050
 	REQUIRE_PREDICATE GAME_IS ~bg2ee iwdee bgee eet~ @10010
-	REQUIRE_COMPONENT ~MINORNPCPORTRAITSFORIE/SETUP-MINORNPCPORTRAITSFORIE.TP2~ ~0~ @10999
+	REQUIRE_COMPONENT ~PPE/SETUP-PPE.TP2~ ~0~ @10999
 	DESIGNATED 150
 	SUBCOMPONENT @13000
 	OUTER_SET IsRnd 		= 1		// Random

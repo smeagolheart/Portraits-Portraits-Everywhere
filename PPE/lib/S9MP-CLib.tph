@@ -17,7 +17,7 @@ DEFINE_ACTION_FUNCTION ~GetRndCatPic~
 		END		
 	END
 
-//Read Creature data & Begin
+//Read creature data & begin
 COPY_EXISTING_REGEXP GLOB ~^.+\.cre$~ ~override~
 	READ_ASCII  0x02cc dialoguefile ELSE 0
 	READ_ASCII  0x0034 portraitfile ELSE 0
