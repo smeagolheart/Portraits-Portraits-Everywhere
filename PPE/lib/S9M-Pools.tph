@@ -6,7 +6,7 @@ OUTER_SET rnd_cnt 			= 0								// Counter for Total Number of Random Portraits
 Each variable states the maximum number of portraits in that category.  See the 'RandomPortraits' Folder for the portraits
 */
 OUTER_SET AirElement_max	= 3
-OUTER_SET AmnS_max	 		= 10
+OUTER_SET AmnS_max	 		= 11
 OUTER_SET BadMonkF_max	 	= 3
 OUTER_SET BadMonkF_max	 	= 3
 OUTER_SET BadMonkM_max	 	= 6
@@ -25,11 +25,11 @@ OUTER_SET DrowM_max	 		= 20
 OUTER_SET DruidF_max	 	= 4
 OUTER_SET DruidM_max	 	= 7
 OUTER_SET DwarfF_max	 	= 6
-OUTER_SET DwarfM_max	 	= 30
+OUTER_SET DwarfM_max	 	= 35
 OUTER_SET ElfF_max	 		= 15
-OUTER_SET ElfM_max	 		= 21
+OUTER_SET ElfM_max	 		= 22
 OUTER_SET FFFemale_max 		= 6
-OUTER_SET FFMale_max 		= 11
+OUTER_SET FFMale_max 		= 13
 OUTER_SET FighterF_max		= 16
 OUTER_SET FighterM_max		= 70
 OUTER_SET GenericF_max 		= 26
