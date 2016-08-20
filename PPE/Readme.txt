@@ -104,6 +104,9 @@ Gate Forums. The mod name came as a suggestion by Cahir. "Vampirized" NPC portra
 ===================================================================================================================
 
 Version History:
+V0.91 20 Aug 16
+- Fixed a few entries
+
 V0.90 20 Aug 16
 - Initial Release
 
