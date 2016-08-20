@@ -1,7 +1,6 @@
 //Variable Declarations
 RANDOM_SEED 				~would that it twere so simple~	// Initialize the Random Number Generator
 OUTER_SET rnd_cnt 			= 0								// Counter for Total Number of Random Portraits
-
 /*
 Each variable states the maximum number of portraits in that category.  See the 'RandomPortraits' Folder for the portraits
 */
@@ -31,12 +30,12 @@ OUTER_SET ElfM_max	 		= 22
 OUTER_SET FFFemale_max 		= 6
 OUTER_SET FFMale_max 		= 13
 OUTER_SET FighterF_max		= 16
-OUTER_SET FighterM_max		= 70
+OUTER_SET FighterM_max		= 75
 OUTER_SET GenericF_max 		= 26
 OUTER_SET GenericM_max 		= 32
 OUTER_SET Genie_max	 		= 10
 OUTER_SET GhostF_max	 	= 3
-OUTER_SET GhostM_max	 	= 15
+OUTER_SET GhostM_max	 	= 18
 OUTER_SET GhoulM_max	 	= 3
 OUTER_SET Girl_max	 		= 14
 OUTER_SET Githyanki_max		= 3
@@ -85,20 +84,19 @@ OUTER_SET RedWizardM_max	= 3
 OUTER_SET SahuaginF_max	 	= 2
 OUTER_SET SahuaginM_max	 	= 4
 OUTER_SET SailorF_max	 	= 4
-OUTER_SET SailorM_max	 	= 6
+OUTER_SET SailorM_max	 	= 7
 OUTER_SET Skele_max 		= 11
 OUTER_SET StrohmGuard_max 	= 5
 OUTER_SET Svirf_max	 		= 3
 OUTER_SET ThiefF_max	 	= 7
-OUTER_SET ThiefM_max	 	= 27
+OUTER_SET ThiefM_max	 	= 28
 OUTER_SET TiefF_max	 		= 2
 OUTER_SET TiefM_max	 		= 2
 OUTER_SET Troll_max	 		= 9
 OUTER_SET Tutor_max 		= 3
 OUTER_SET UrfElement_max	= 2
-OUTER_SET WatcherM_max	 	= 4
 OUTER_SET WaterdF_max	 	= 2
-OUTER_SET WaterdM_max	 	= 13
+OUTER_SET WaterdM_max	 	= 14
 OUTER_SET WizardF_max	 	= 5
 OUTER_SET WizardM_max	 	= 14
 OUTER_SET Zombie_max 		= 7
@@ -467,7 +465,7 @@ DEFINE_ACTION_MACRO ~Skeletons~ BEGIN
 			INT_VAR
 			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
 			STR_VAR
-			"S9FN"    				= "S9SKELE"							// Filename
+			"S9FN"    				= "S9SKEL"							// Filename
 			"S9FLD"    				= "Skeletons"						// Foldername
 		END
 		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
@@ -1157,7 +1155,7 @@ DEFINE_ACTION_MACRO ~PlanetMale~ BEGIN
 			INT_VAR
 			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
 			STR_VAR
-			"S9FN"    				= "S9PLANM"							// Filename
+			"S9FN"    				= "S9PLNM"							// Filename
 			"S9FLD"    				= "Planatar"						// Foldername
 		END
 		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
@@ -1171,7 +1169,7 @@ DEFINE_ACTION_MACRO ~PlanetFem~ BEGIN
 			INT_VAR
 			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
 			STR_VAR
-			"S9FN"    				= "S9PLANF"							// Filename
+			"S9FN"    				= "S9PLNF"							// Filename
 			"S9FLD"    				= "Planatar"						// Foldername
 		END
 		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
@@ -1231,7 +1229,7 @@ DEFINE_ACTION_MACRO ~TiefM~ BEGIN
 			INT_VAR
 			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
 			STR_VAR
-			"S9FN"    				= "S9TIEFM"							// Filename
+			"S9FN"    				= "S9TIFM"							// Filename
 			"S9FLD"    				= "Tieflings"						// Foldername
 		END
 		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
@@ -1246,7 +1244,7 @@ DEFINE_ACTION_MACRO ~TiefF~ BEGIN
 			INT_VAR
 			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
 			STR_VAR
-			"S9FN"    				= "S9TIEFF"							// Filename
+			"S9FN"    				= "S9TIFF"							// Filename
 			"S9FLD"    				= "Tieflings"						// Foldername
 		END
 		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
@@ -1291,7 +1289,7 @@ DEFINE_ACTION_MACRO ~SahuaginM~ BEGIN
 			INT_VAR
 			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
 			STR_VAR
-			"S9FN"    				= "S9SHARM"							// Filename
+			"S9FN"    				= "S9SHRM"							// Filename
 			"S9FLD"    				= "Sahuagins"						// Foldername
 		END
 		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
@@ -1306,7 +1304,7 @@ DEFINE_ACTION_MACRO ~SahuaginF~ BEGIN
 			INT_VAR
 			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
 			STR_VAR
-			"S9FN"    				= "S9SHARF"							// Filename
+			"S9FN"    				= "S9SHRF"							// Filename
 			"S9FLD"    				= "Sahuagins"						// Foldername
 		END
 		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
@@ -1560,27 +1558,12 @@ DEFINE_ACTION_MACRO ~ProphetM~ BEGIN
 			INT_VAR
 			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
 			STR_VAR
-			"S9FN"    				= "S9PROPM"							// Filename
+			"S9FN"    				= "S9PROM"							// Filename
 			"S9FLD"    				= "Prophets"						// Foldername
 		END
 		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
 	END	
 END  // End Prophet Male
-// Watcher Male
-DEFINE_ACTION_MACRO ~WatcherM~ BEGIN
-	ACTION_IF IsPortraitSet = 0 THEN BEGIN
-		OUTER_TEXT_SPRINT group ~Kobold~
-		LAM RndChecker
-		LAF ~GetRndCatPic~
-			INT_VAR
-			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
-			STR_VAR
-			"S9FN"    				= "S9WATCH"							// Filename
-			"S9FLD"    				= "Readers"							// Foldername
-		END
-		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
-	END	
-END  // End Watcher Male
 // Halfling Thief Male
 DEFINE_ACTION_MACRO ~HafThM~ BEGIN
 	ACTION_IF IsPortraitSet = 0 THEN BEGIN

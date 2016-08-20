@@ -43,24 +43,12 @@ from the Rogue pool.  Please note that while other mods may be affected, their d
 specifically "Mugger" or one of the other key search words to match the algorithim in this mod is beyond my control so results may vary.
 This is optimized for vanilla supported games but you might get some decent but not perfect results for mod added characters.
 
------------------------------------------------------
-Generic Portraits (Optional)
------------------------------------------------------
-This optional component can be installed after installing other mods to add generic portraits to the base races. 
-Please note that Generic Portraits (Optional) component will not do anything if you have no Mod added NPCs because the Main Component 
-and the Category Portraits component covers all NPCs in the base supported games.  
-
-The Generic Portraits component will apply portraits from random generic pools for the following races: Human, Elf, Half-Elf, Dwarf, 
-Halfling, Gnome, and Half-Orc.  There are no breakdowns for Human Muggers or other subgroups.  For example, if a mod added a human 
-character named "Charlatan", that name would not match the search parameters for the Category Portraits component for Rogues or any other 
-group but that character could get a generic portrait from this Component. 
-
-Due to the varying quality of mods and the vast number of potential mods available, there is very little chance that this component will 
-act perfectly for you.  As an example, Half Orcs were not available in the original Baldur's Gate 1 but there are mods that add characters 
-coded as human to Baldur's Gate 1 that use dialogue to describe the character as being a Half Orc.  That character would match as a human 
-and get a generic human portrait from this component due to the creature being coded as a human to the game engine.
-
-As with the Category Portraits component, this component can be installed either sequentially or randomly.
+This optional component can be installed after installing other mods to add portraits to the base races and matches on any of the key
+words.  Due to the varying quality of mods and the vast number of potential mods available, there is  little chance that this component 
+will act perfectly for mod added NPCs.  As an example, Half Orcs were not available in the original Baldur's Gate 1 but there are mods 
+that add characters coded as human to Baldur's Gate 1 that use dialogue to describe the character as being a Half Orc.  That character 
+would match as a human and get a generic human portrait from this component due to the creature being coded as a human to the game 
+engine.
 
 -----------------------------------------------------
 CREDITS and Additional Information
@@ -121,11 +109,11 @@ The mod name came as a suggestion by Cahir.
 ===================================================================================================================
 
 Version History:
-V1.0 20 Aug 16
+V0.90 20 Aug 16
 - Initial Release
 
 ===================================================================================================================
 forum
-https://forums.beamdog.com/discussion/55237/mod-minor-npc-portraits-for-bgee
+
 ===================================================================================================================
 ===================================================================================================================
