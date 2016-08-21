@@ -6,7 +6,7 @@ LANGUAGE ~English~
 	~PPE/lang/en_US/setup.tra~
 
 BEGIN @10000
-	REQUIRE_PREDICATE GAME_IS ~bgee bg2ee iwdee eet~ @10010
+	REQUIRE_PREDICATE GAME_IS ~bgee bg2ee iwdee eet sod~ @10010
 	DESIGNATED 0
 
 	DEFINE_ACTION_MACRO ~Addpic~ BEGIN
@@ -64,7 +64,7 @@ BEGIN @10000
 	PRINT ~-------------------------------------------------------------~
 
 BEGIN @20000
-	REQUIRE_PREDICATE GAME_IS ~bg2ee iwdee bgee eet~ @10010
+	REQUIRE_PREDICATE GAME_IS ~bgee bg2ee iwdee eet sod~ @1001010
 	REQUIRE_COMPONENT ~PPE/SETUP-PPE.TP2~ ~0~ @10999
 	DESIGNATED 100
 	SUBCOMPONENT @13000	
@@ -72,7 +72,7 @@ BEGIN @20000
 	INCLUDE ~%MOD_FOLDER%/lib/S9MP-CLib.tph~
 	
 BEGIN @20050
-	REQUIRE_PREDICATE GAME_IS ~bg2ee iwdee bgee eet~ @10010
+	REQUIRE_PREDICATE GAME_IS ~bgee bg2ee iwdee eet sod~ @10010
 	REQUIRE_COMPONENT ~PPE/SETUP-PPE.TP2~ ~0~ @10999
 	DESIGNATED 150
 	SUBCOMPONENT @13000
