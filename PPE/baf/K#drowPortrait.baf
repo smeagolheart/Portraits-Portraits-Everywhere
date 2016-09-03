@@ -1,0 +1,19 @@
+// Normal portrait
+IF
+  !Global("PlayerLooksLikeDrow","GLOBAL",1)
+  !Global("K#DPortrait","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("K#DPortrait","LOCALS",0)
+    ApplySpellRES("K#D%ID%0",Myself)
+END
+
+// Ust Natha portrait
+IF
+  Global("PlayerLooksLikeDrow","GLOBAL",1)
+  !Global("K#DPortrait","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("K#DPortrait","LOCALS",1)
+    ApplySpellRES("K#D%ID%1",Myself)
+END

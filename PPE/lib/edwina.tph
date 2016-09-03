@@ -1,0 +1,35 @@
+COPY ~%MOD_FOLDER%/copy/BG2/edwina~ ~override~
+
+// add portrait change opcodes to edwin transform spells
+COPY_EXISTING ~spin662.spl~ ~override~ // return to edwin
+              ~spin916.spl~ ~override~ // change to edwina
+	READ_LONG  0x64 "abil_off"
+	READ_SHORT 0x68 "abil_num"
+	READ_LONG  0x6a "fx_off"
+	READ_LONG  0x34 "level"
+	SET "delta" = 0
+	FOR (index = 0 ; index < abil_num ; index = index + 1) BEGIN
+		READ_SHORT ("%abil_off%" + 0x1e + (0x28 * "%index%")) "abil_fx_num"
+		READ_SHORT ("%abil_off%" + 0x20 + (0x28 * "%index%")) "abil_fx_idx"
+		SET "abil_fx_idx" = ("%abil_fx_idx%" + "%delta%")
+		WRITE_SHORT ("%abil_off%" + 0x20 + (0x28 * "%index%")) "%abil_fx_idx%"
+		FOR (index2 = 0 ; index2 < 2 ; index2 = index2 + 1) BEGIN
+			INSERT_BYTES  ("%fx_off%" +        (0x30 * "%abil_fx_idx%")) 0x30
+			WRITE_SHORT ("%fx_off%" +        (0x30 * "%abil_fx_idx%")) 107        // change portrait
+			WRITE_BYTE  ("%fx_off%" + 0x02 + (0x30 * "%abil_fx_idx%")) 2          // target:preset target
+			WRITE_LONG  ("%fx_off%" + 0x08 + (0x30 * "%abil_fx_idx%")) "%index2%" // small or large portrait
+			WRITE_BYTE  ("%fx_off%" + 0x0c + (0x30 * "%abil_fx_idx%")) 1          // instant/permanent
+			WRITE_BYTE  ("%fx_off%" + 0x12 + (0x30 * "%abil_fx_idx%")) 100        // probability
+		END
+		PATCH_IF ("%SOURCE_RES%" STRING_COMPARE_CASE "spin662" = 0) BEGIN
+			WRITE_ASCII ("%fx_off%" + 0x14 + (0x30 * "%abil_fx_idx%")) ~nedwinm~ // portrait resource
+			WRITE_ASCII ("%fx_off%" + 0x44 + (0x30 * "%abil_fx_idx%")) ~nedwins~ // portrait resource
+		END ELSE BEGIN
+			WRITE_ASCII ("%fx_off%" + 0x14 + (0x30 * "%abil_fx_idx%")) ~EDWINAL~ // portrait resource
+			WRITE_ASCII ("%fx_off%" + 0x44 + (0x30 * "%abil_fx_idx%")) ~EDWINAS~ // portrait resource
+		END
+		SET "delta" = ("%delta%" + 2)
+		WRITE_SHORT ("%abil_off%" + 0x1e + (0x28 * "%index%")) ("%abil_fx_num%" + 2)
+	END
+	BUT_ONLY_IF_IT_CHANGES
+  

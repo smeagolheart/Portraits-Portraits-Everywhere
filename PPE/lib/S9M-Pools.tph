@@ -11,7 +11,7 @@ OUTER_SET BadMonkF_max	 	= 3
 OUTER_SET BadMonkM_max	 	= 6
 OUTER_SET BadPriestF_max	= 3
 OUTER_SET BadPriestM_max	= 2
-OUTER_SET Bartender_max	 	= 12
+OUTER_SET Bartender_max	 	= 14
 OUTER_SET Beggar_max	 	= 11
 OUTER_SET Beholder_max 		= 5
 OUTER_SET BoysA_max	 		= 9
@@ -19,7 +19,7 @@ OUTER_SET BoysB_max	 		= 3
 OUTER_SET CourteseanF_max 	= 20
 OUTER_SET CowledM_max	 	= 3
 OUTER_SET DemonM_max	 	= 4
-OUTER_SET DrowF_max	 		= 19
+OUTER_SET DrowF_max	 		= 20
 OUTER_SET DrowM_max	 		= 20
 OUTER_SET DruidF_max	 	= 4
 OUTER_SET DruidM_max	 	= 7
@@ -421,7 +421,7 @@ DEFINE_ACTION_MACRO ~ZombieMale~ BEGIN
 			"S9Cnt"		= EVAL ~%group%_cnt~							// Current Counter of this category
 			STR_VAR
 			"S9FN"    				= "S9ZOM"							// Filename
-			"S9FLD"    				= "ZombieMale"						// Foldername
+			"S9FLD"    				= "Zombies"						// Foldername
 		END
 		OUTER_SET IsPortraitSet = 1										// Portrait Set is True
 	END	

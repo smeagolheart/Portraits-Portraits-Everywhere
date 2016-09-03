@@ -1,50 +1,17 @@
 BACKUP ~PPE/backup~
 AUTHOR ~Smeagolheart&bob_veng@forum.baldursgate.com~
-VERSION ~0.91~
+VERSION ~0.99~
 LANGUAGE ~English~
 	~en_US~
 	~PPE/lang/en_US/setup.tra~
 
 BEGIN @10000
-	REQUIRE_PREDICATE GAME_IS ~bgee bg2ee iwdee eet sod~ @10010
+	REQUIRE_PREDICATE GAME_IS ~bgee bg2ee iwdee eet sod~ @90010
 	DESIGNATED 0
-
-	DEFINE_ACTION_MACRO ~Addpic~ BEGIN
-			ACTION_IF FILE_EXISTS ~%MOD_FOLDER%/portraits/%Filename%.bmp~ THEN BEGIN
-				LOG ~PATCHING: %Crename%.cre with PORTRAIT: %Filename%.bmp~
-				COPY_EXISTING ~%Crename%.cre~ ~override~
-				WRITE_EVALUATED_ASCII 0x34 ~%Filename%~ #8
-				ACTION_IF NOT FILE_EXISTS ~override\%Filename%.bmp~ THEN BEGIN
-					COPY ~%MOD_FOLDER%/portraits/%Filename%.bmp~ ~override~
-				END
-			END	ELSE BEGIN     // If portrait's not in the mod, just update reference (Re-use existing portraits)
-				COPY_EXISTING ~%Crename%.cre~ ~override~
-				WRITE_EVALUATED_ASCII 0x34 ~%Filename%~ #8
-			END
-	END
-	
-	PRINT @10001
+	INCLUDE ~%MOD_FOLDER%/lib/standard.tph~		
+	PRINT @90001
 	OUTER_SET s9total=0
 
-	// BG1 Specific Actions
-	ACTION_IF GAME_IS ~bgee eet~ THEN BEGIN		
-		COPY ~%MOD_FOLDER%/copy/BG1~ ~override~
-		// Portrait Swapping scripts
-		COMPILE ~%MOD_FOLDER%/dialogue/thalan.d~
-		COMPILE ~%MOD_FOLDER%/dialogue/dopdur1.d~
-		COMPILE ~%MOD_FOLDER%/dialogue/dopdur2.d~
-		COMPILE ~%MOD_FOLDER%/dialogue/dopdur3.d~
-		COMPILE ~%MOD_FOLDER%/dialogue/elmins4.d~
-		//COMPILE ~%MOD_FOLDER%/dialogue/rashad.d~
-	END
-	// BG2 Specific Actions
-	// including overwriting the Low Res / Quality Default BG2 Portraits for Bhaalspawn
-	ACTION_IF GAME_IS ~bg2ee eet~ THEN BEGIN
-		COPY ~%MOD_FOLDER%/copy/BG2~ ~override~
-		// Portrait Swapping scripts
-		COMPILE ~%MOD_FOLDER%/dialogue/shape.d~
-	END
-	
 	OUTER_SET rows_cnt_1=0
 	COPY - ~%MOD_FOLDER%/tbl/NPCPortraits.tbl~  ~%MOD_FOLDER%/tbl/NPCPortraits.tbl~
 		COUNT_2DA_ROWS 1 "rows_cnt_1"
@@ -58,24 +25,93 @@ BEGIN @10000
 					END
 				END
 			END
+
+	// BG1 Specific Actions
+	ACTION_IF GAME_IS ~bgee eet~ THEN BEGIN		
+		COPY ~%MOD_FOLDER%/copy/BG1~ ~override~
+		// Portrait Swapping scripts
+		COMPILE ~%MOD_FOLDER%/dialogue/thalan.d~
+		COMPILE ~%MOD_FOLDER%/dialogue/dopdur1.d~
+		COMPILE ~%MOD_FOLDER%/dialogue/dopdur2.d~
+		COMPILE ~%MOD_FOLDER%/dialogue/dopdur3.d~
+		COMPILE ~%MOD_FOLDER%/dialogue/elmins4.d~
+		//COMPILE ~%MOD_FOLDER%/dialogue/rashad.d~
+	END
+	// BG2 Specific Actions
+	ACTION_IF GAME_IS ~bg2ee eet~ THEN BEGIN
+		COPY ~%MOD_FOLDER%/copy/BG2~ ~override~
+		BUT_ONLY_IF_IT_CHANGES
+		// Portrait Swapping scripts
+		COMPILE ~%MOD_FOLDER%/dialogue/shape.d~
+	END
+	
 	//Count them up :)
 	PRINT ~-------------------------------------------------------------~
-	PRINT @10002
-	PRINT ~-------------------------------------------------------------~
+	PRINT @90002
+	PRINT ~-------------------------------------------------------------~	
 
 BEGIN @20000
-	REQUIRE_PREDICATE GAME_IS ~bgee bg2ee iwdee eet sod~ @1001010
-	REQUIRE_COMPONENT ~PPE/SETUP-PPE.TP2~ ~0~ @10999
+	REQUIRE_PREDICATE GAME_IS ~bgee bg2ee iwdee eet sod~ @90010
+	REQUIRE_COMPONENT ~PPE/SETUP-PPE.TP2~ ~0~ @90999
+	SUBCOMPONENT @13000
 	DESIGNATED 100
-	SUBCOMPONENT @13000	
-	OUTER_SET IsRnd 		= 0		// Not Random
+	// Category Portraits, Not Random
+	OUTER_SET IsRnd 		= 0
 	INCLUDE ~%MOD_FOLDER%/lib/S9MP-CLib.tph~
 	
 BEGIN @20050
-	REQUIRE_PREDICATE GAME_IS ~bgee bg2ee iwdee eet sod~ @10010
-	REQUIRE_COMPONENT ~PPE/SETUP-PPE.TP2~ ~0~ @10999
-	DESIGNATED 150
+	REQUIRE_PREDICATE GAME_IS ~bgee bg2ee iwdee eet sod~ @90010
+	REQUIRE_COMPONENT ~PPE/SETUP-PPE.TP2~ ~0~ @90999
 	SUBCOMPONENT @13000
-	OUTER_SET IsRnd 		= 1		// Random
+	DESIGNATED 150
+	// Category Portraits, Random
+	OUTER_SET IsRnd 		= 1
 	INCLUDE ~%MOD_FOLDER%/lib/S9MP-CLib.tph~
+
+BEGIN @11110
+	REQUIRE_PREDICATE (!(GAME_IS ~iwdee~)) @90050
+	DESIGNATED 10
+	//Isandir's CHARNAME Portraits
+	INCLUDE ~%MOD_FOLDER%/lib/Isandir.tph~
+	
+BEGIN @11120
+	GROUP @11100
+	REQUIRE_PREDICATE GAME_IS ~eet bg2ee~ @90030	
+	DESIGNATED 20
+	//overwrites Low Quality TOB & SOA Portraits for bhaalspawn
+	COPY ~%MOD_FOLDER%/copy/BG2/spawn~ ~override~		
+	
+BEGIN @11125
+	GROUP @11100
+	REQUIRE_PREDICATE GAME_IS ~eet bg2ee~ @90030
+	FORBID_COMPONENT ~setup-bg2_tweaks.tp2~ ~1180~ @90040
+	DESIGNATED 25
+	//edwin/edwina
+	INCLUDE ~%MOD_FOLDER%/lib/edwina.tph~
+
+BEGIN @11130
+	GROUP @11100
+	REQUIRE_PREDICATE GAME_IS ~eet bg2ee~ @90030	
+	DESIGNATED 30
+	//ust natha drow companion portraits
+	INCLUDE ~%MOD_FOLDER%/lib/drow.tph~
+	
+BEGIN @11135
+	GROUP @11100
+	REQUIRE_PREDICATE GAME_IS ~eet bg2ee~ @90030	
+	DESIGNATED 35
+	//vampire companion portraits
+	INCLUDE ~%MOD_FOLDER%/lib/standard.tph~
+	OUTER_SET rows_cnt_1=0
+	COPY - ~%MOD_FOLDER%/tbl/VamPortraits.tbl~  ~%MOD_FOLDER%/tbl/VamPortraits.tbl~
+		COUNT_2DA_ROWS 1 "rows_cnt_1"
+			FOR( cntg=0; cntg<"%rows_cnt_1%"; cntg+=1 ) BEGIN
+				READ_2DA_ENTRY cntg  0 2 "Crename"
+				READ_2DA_ENTRY cntg  1 2 "Filename"
+				INNER_ACTION BEGIN
+					ACTION_IF FILE_EXISTS_IN_GAME ~%Crename%.cre~ THEN BEGIN
+						LAUNCH_ACTION_MACRO ~Addpic~ 
+					END
+				END
+			END	
 	

@@ -49,6 +49,39 @@ that describes a human as a Half Orc through dialogue. Mods made for Baldur's Ga
 playable race and that character would appear human to the engine and would get a human portrait.
 
 -----------------------------------------------------
+Isandir's CHARNAME Portraits
+-----------------------------------------------------
+A beautiful portrait pack by Isandir in a style similar to vanilla BG1 and BG2 portraits. 
+
+-----------------------------------------------------
+Replace Low Quality TOB & SOA Portraits	
+-----------------------------------------------------
+This component, for Baldur's Gate 2 Enhanced Edition, replaces legacy portraits included with the game for Bhaalspawn.  The portraits that
+are replaced are generally low quality 38x60 size and are replaced with beautiful 169x266 portraits created for the Enhanced Edition
+engine.
+
+-----------------------------------------------------
+Edwin/Edwina
+-----------------------------------------------------
+This component, for Baldur's Gate 2 Enhanced Edition, gives Edwin a female portrait once he completes the Nether scroll ritual.  The portrait 
+was created by Syntia13 and is based on the default portrait for Edwin in Baldur's Gate 2.  This is highly recommended but optional. If  
+you've replaced the portrait for Edwin with a custom one, you might not want to load this component.
+
+-----------------------------------------------------
+Ust Natha Drow NPCs
+-----------------------------------------------------
+This component, for Baldur's Gate 2 Enhanced Edition, provides drow versions of vanilla NPC portraits. This is highly recommended but 
+optional.  The code to transform the portraits was thoughtfully provided by K4thos.  Most of the drow versions of NPC portraits are by 
+Isandir.  If you've replaced your NPC companion portraits with a custom portraits, you might not want to load this component.
+		
+-----------------------------------------------------
+Vampire NPCs
+-----------------------------------------------------
+This component, for Baldur's Gate 2 Enhanced Edition, provides vampire versions of vanilla NPC portraits.  This is highly recommended but 
+optional.  If you've replaced your NPC companion portraits with a custom portraits, you might not want to load this component.
+"Vampirized" NPC portraits provided by lefreut.
+
+-----------------------------------------------------
 CREDITS and Additional Information
 -----------------------------------------------------
 
@@ -99,11 +132,24 @@ None at this time
 Thanks everyone you know who you are, I hope you appreciate the hard work of the artists as I do.
 
 Additional thanks to lynx and argent77 from Gibberlings3 Forums for coding assistance.
-Thank you to Mr2150, Cahir, AstroBryGuy, Thels, lefreut, and others for their input and assistance on the Baldur's 
-Gate Forums. The mod name came as a suggestion by Cahir. "Vampirized" NPC portraits provided by lefreut.
+Thank you to Mr2150, Cahir, AstroBryGuy, Thels, lefreut, swit, K4thos, Syntia13, Isandir and others for their input 
+and assistance on the Baldur's Gate Forums. 
+
+The mod name was suggested by Cahir. 
+
 ===================================================================================================================
 
 Version History:
+V.0.99 03 Sept 16
+- Downgraded Weidu from beta version to stable version 239
+- Added additional install components
+	Isandir's CHARNAME Portraits
+	Replace Low Quality TOB & SOA Portraits	
+	Edwin/Edwina
+	Ust Natha Drow NPCs
+	Vampire NPCs	
+- Modified & replaced a few portraits with bob_veng
+
 V0.91 20 Aug 16
 - Fixed a few entries
 

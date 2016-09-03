@@ -1,0 +1,74 @@
+//Drow portraits
+
+ACTION_DEFINE_ASSOCIATIVE_ARRAY array_dvID BEGIN //Left - DV (NPC script name); Right - 3 letters used in portrait/spell names
+	Aerie => aer
+	Anomen => ano
+	Cernd => cer
+	Edwin => edw
+	HaerDalis => hae
+	Hexxat => hex
+	Ohhfak => hef
+	Imoen2 => imo
+	Jaheira => jah
+	Jan => jan
+	Keldorn => kel
+	Korgan => kor
+	Mazzy => maz
+	Minsc => min
+	Nalia => nal
+	Valygar => val
+	Viconia => vic
+	Yoshimo => yos
+	Dorn => dor
+	Neera => nee
+	Ohhfak => hef
+	Rasaad => ras
+	Wilson => wil
+END
+
+COPY ~PPE/SPL/K#DREM.SPL~ ~override~ //spell that removes spell effects from whole party
+	~PPE/copy/BG2/drow~ ~override~ //all drow portraits
+
+OUTER_SPRINT r_t ~~
+ACTION_PHP_EACH array_dvID AS dv => id BEGIN
+	ACTION_IF (FILE_EXISTS ~PPE/copy/BG2/drow/K#D%id%S.bmp~) OR (FILE_EXISTS ~PPE/copy/BG2/drow/K#D%id%MS.bmp~) BEGIN //just in case not all NPCs mentioned in array have portraits to assign
+		ACTION_IF (NOT FILE_EXISTS ~PPE/copy/BG2/drow/K#D%id%MS.bmp~) BEGIN //only if gender based portrait doesn't exist
+			COPY ~PPE/SPL/K#DADD.SPL~ ~override/K#D%id%.spl~
+				WRITE_EVALUATED_ASCII ~0xae~ ~K#D%id%S~ #8 //BMP resource for small portrait
+				WRITE_EVALUATED_ASCII ~0xde~ ~K#D%id%M~ #8 //BMP resource for medium portrait
+		END ELSE BEGIN //only if gender based portrait exists
+			COPY ~PPE/SPL/K#DGEN.SPL~ ~override/K#D%id%.spl~ //create spell that assigns gender based spells
+				WRITE_EVALUATED_ASCII ~0xae~ ~K#D%id%M~ #8 //SPL resource that assigns male portraits
+				WRITE_EVALUATED_ASCII ~0xde~ ~K#D%id%F~ #8 //SPL resource that assigns female portraits
+			ACTION_FOR_EACH var IN M F BEGIN
+				COPY ~PPE/SPL/K#DADD.SPL~ ~override/K#D%id%%var%.spl~ //create spell that assigns gender based small/medium portrait
+					WRITE_EVALUATED_ASCII ~0xae~ ~K#D%id%%var%S~ #8 //BMP resource for small portrait
+					WRITE_EVALUATED_ASCII ~0xde~ ~K#D%id%%var%M~ #8 //BMP resource for medium portrait
+				COPY_EXISTING ~K#DREM.SPL~ ~override~ //add K#D%id%%var% resource to spell removal poll
+					LPF ADD_SPELL_EFFECT INT_VAR opcode = 321 target = 3 STR_VAR resource = EVAL "K#D%id%%var%" END
+			END
+		END
+		COPY_EXISTING ~K#DREM.SPL~ ~override~ //add K#D%id% resource to spell removal poll
+			LPF ADD_SPELL_EFFECT INT_VAR opcode = 321 target = 3 STR_VAR resource = EVAL "K#D%id%" END
+		OUTER_SPRINT r_t ~%r_t%%LNL%    ActionOverride("%dv%",ApplySpellRES("K#D%id%",Myself))~
+	END
+END
+		
+COPY_EXISTING ~AR2102.bcs~ ~override~
+	DECOMPILE_AND_PATCH BEGIN
+		REPLACE_TEXTUALLY ~\(ActionOverride(Player6,ApplySpell(Myself,DROW_CHANGE))\)~ ~\1%r_t%~
+	END
+BUT_ONLY
+
+//Add drow portrait removal code at the same places that removes party animation from drow back to normal
+COPY_EXISTING ~BALDUR.bcs~ ~override~
+	~CUT44C.bcs~ ~override~
+	~DRAGSILV.bcs~ ~override~
+	~UDCBACK.bcs~ ~override~
+	~UDARDUL.dlg~ ~override~
+	~UDDEMON.dlg~ ~override~
+	DECOMPILE_AND_PATCH BEGIN
+		REPLACE_TEXTUALLY ~\(ActionOverride(Player6,ApplySpell(Myself,UNDER_NORM))\)~ ~\1
+    ActionOverride(Player1,ApplySpellRES("K#DREM",Myself))~
+	END
+BUT_ONLY
