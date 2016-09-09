@@ -140,6 +140,10 @@ The mod name was suggested by Cahir.
 ===================================================================================================================
 
 Version History:
+v.1.00 08 Sept 16
+- Updated 42 portraits with bob_veng
+- revised code for Isandir's CHARNAME Portraits component
+
 V.0.99 03 Sept 16
 - Downgraded Weidu from beta version to stable version 239
 - Added additional install components

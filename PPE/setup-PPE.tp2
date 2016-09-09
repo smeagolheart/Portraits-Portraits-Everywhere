@@ -1,6 +1,6 @@
 BACKUP ~PPE/backup~
 AUTHOR ~Smeagolheart&bob_veng@forum.baldursgate.com~
-VERSION ~0.99~
+VERSION ~1.00~
 LANGUAGE ~English~
 	~en_US~
 	~PPE/lang/en_US/setup.tra~
@@ -72,7 +72,7 @@ BEGIN @11110
 	REQUIRE_PREDICATE (!(GAME_IS ~iwdee~)) @90050
 	DESIGNATED 10
 	//Isandir's CHARNAME Portraits
-	INCLUDE ~%MOD_FOLDER%/lib/Isandir.tph~
+	COPY ~%MOD_FOLDER%/copy/Isandir~ ~override~
 	
 BEGIN @11120
 	GROUP @11100
