@@ -140,7 +140,10 @@ The mod name was suggested by Cahir.
 ===================================================================================================================
 
 Version History:
-v.1.00 08 Sept 16
+v1.01	21 Sept 16
+- Updated 57 portraits with bob_veng
+
+v.1.00	08 Sept 16
 - Updated 42 portraits with bob_veng
 - revised code for Isandir's CHARNAME Portraits component
 
