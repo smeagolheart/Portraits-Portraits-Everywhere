@@ -1,6 +1,8 @@
 # Portraits-Portraits-Everywhere
 Portraits Portraits Everywhere
 by Smeagolheart & bob_veng
+fork by https://forums.beamdog.com/profile/comments/skusha 
+french translation by Daft Hunk
 ===================================================================================================================
 ===================================================================================================================
 WHAT IS IT?:
