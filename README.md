@@ -2,8 +2,9 @@
 Portraits Portraits Everywhere
 by Smeagolheart & bob_veng
 
-fork by https://forums.beamdog.com/profile/comments/skusha 
-french translation by Daft Hunk
+> Fork by https://forums.beamdog.com/profile/comments/skusha 
+> Updated portraits by https://forums.beamdog.com/profile/Greener
+> French translation by Daft Hunk
 ===================================================================================================================
 ===================================================================================================================
 WHAT IS IT?:
@@ -108,6 +109,11 @@ Gate Forums. The mod name came as a suggestion by Cahir. "Vampirized" NPC portra
 ===================================================================================================================
 
 Version History:
+V1.02 24/07/2021
+- Added new content & russian translation: by skusha 
+- Replaced some portraits with new one: by Greener
+- Added french translation: by Daft Hunk 
+
 V0.90 20 Aug 16
 - Initial Release
 
