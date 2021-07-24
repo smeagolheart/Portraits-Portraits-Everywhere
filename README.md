@@ -2,9 +2,9 @@
 Portraits Portraits Everywhere
 by Smeagolheart & bob_veng
 
-> Fork by https://forums.beamdog.com/profile/comments/skusha 
-> Updated portraits by https://forums.beamdog.com/profile/Greener
-> French translation by Daft Hunk
+- Fork by https://forums.beamdog.com/profile/comments/skusha 
+- Updated portraits by https://forums.beamdog.com/profile/Greener
+- French translation by Daft Hunk
 ===================================================================================================================
 ===================================================================================================================
 WHAT IS IT?:
