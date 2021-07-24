@@ -110,6 +110,7 @@ Gate Forums. The mod name came as a suggestion by Cahir. "Vampirized" NPC portra
 ===================================================================================================================
 
 Version History:
+
 V1.02 24/07/2021
 - Added new content & russian translation: by skusha 
 - Replaced some portraits with new one: by Greener
