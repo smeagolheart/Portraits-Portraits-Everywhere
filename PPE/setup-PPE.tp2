@@ -4,9 +4,18 @@ VERSION ~1.01~
 LANGUAGE ~English~
 	~en_US~
 	~PPE/lang/en_US/setup.tra~
+	~PPE/lang/en_US/vars.tra~
+LANGUAGE ~Russian~
+	~ru_RU~
+	~PPE/lang/ru_RU/setup.tra~
+	~PPE/lang/ru_RU/vars.tra~
+LANGUAGE ~French~
+	~fr_FR~
+	~PPE/lang/fr_FR/setup.tra~
+	~PPE/lang/fr_FR/vars.tra~
 
 BEGIN @10000
-	REQUIRE_PREDICATE GAME_IS ~bgee bg2ee iwdee eet sod~ @90010
+	REQUIRE_PREDICATE GAME_IS ~bgee bg2ee iwdee eet~ @90010
 	DESIGNATED 0
 	INCLUDE ~%MOD_FOLDER%/lib/standard.tph~		
 	PRINT @90001
@@ -40,18 +49,87 @@ BEGIN @10000
 	// BG2 Specific Actions
 	ACTION_IF GAME_IS ~bg2ee eet~ THEN BEGIN
 		COPY ~%MOD_FOLDER%/copy/BG2~ ~override~
-		BUT_ONLY_IF_IT_CHANGES
+		//BUT_ONLY_IF_IT_CHANGES
 		// Portrait Swapping scripts
 		COMPILE ~%MOD_FOLDER%/dialogue/shape.d~
 	END
-	
+	//iwd1
+	ACTION_IF FILE_EXISTS_IN_GAME ~IDWI417.spl~ BEGIN
+		COPY_EXISTING ~ID4002.are~ ~override~
+			LPF ALTER_AREA_ACTOR
+				STR_VAR
+					actor_name = "Captive Villager 18"
+					script_class = "SHEE4002"
+			END
+		COPY_EXISTING ~ID4001.are~ ~override~
+			LPF ALTER_AREA_ACTOR
+				STR_VAR
+					actor_name = "Captive Villager 9 (SPECIAL)"
+					script_class = "CV9S4001"
+			END
+<<<<<<<<SHEE4002.baf
+IF
+	True()
+THEN
+	RESPONSE #100
+		ApplySpellRES("SHEE4002",Myself)
+		ChangeAIScript("",CLASS)
+END
+>>>>>>>>
+<<<<<<<<CV9S4001.baf
+IF
+	True()
+THEN
+	RESPONSE #100
+		ApplySpellRES("CV9S4001",Myself)
+		ChangeAIScript("",CLASS)
+END
+>>>>>>>>
+		COMPILE ~SHEE4002.baf~
+		        ~CV9S4001.baf~
+		COPY ~%MOD_FOLDER%/copy/defaultP.SPL~ ~override/SHEE4002.spl~ WRITE_ASCII 0xae ~SHEEMISH~ (8)
+		COPY ~%MOD_FOLDER%/copy/defaultP.SPL~ ~override/CV9S4001.spl~ WRITE_ASCII 0xae ~CV9S4001~ (8)
+		COPY ~%MOD_FOLDER%/Portraits/CV9S4001.bmp~  ~override~
+	END
+	//iwd2
+	ACTION_IF FILE_EXISTS_IN_GAME ~IWWI417.spl~ BEGIN
+		ACTION_FOR_EACH file IN fuzalon ougamia orcid0zz torassid torasyid BEGIN
+			COPY ~%MOD_FOLDER%/Portraits/%file%.bmp~  ~override~
+			COPY ~%MOD_FOLDER%/copy/defaultP.SPL~ ~override/%file%.spl~ WRITE_EVALUATED_ASCII 0xae ~%file%~ (8)
+		END
+		COPY_EXISTING ~41cMOLo0.bcs~ ~override~
+			DECOMPILE_AND_PATCH BEGIN
+				REPLACE_TEXTUALLY ~CutSceneId("05_Warrior_03")~ ~CutSceneId("05_Warrior_03") ApplySpellRES("fuzalon",Myself)~
+				REPLACE_TEXTUALLY ~CutSceneId("05_Warrior_06")~ ~CutSceneId("05_Warrior_06") ApplySpellRES("ougamia",Myself)~
+			END
+		COPY_EXISTING ~51NARGO.bcs~  ~override~
+			DECOMPILE_AND_PATCH BEGIN
+				REPLACE_TEXTUALLY ~ChangeAIScript(~ ~ApplySpellRES("orcid0zz",Myself) ChangeAIScript(~
+			END
+		COPY_EXISTING ~61THORAS.bcs~  ~override~
+			DECOMPILE_AND_PATCH BEGIN
+				REPLACE_TEXTUALLY ~SetGlobal("AnimationId","LOCALS",32531)~ ~ApplySpellRES("torassid",Myself) SetGlobal("AnimationId","LOCALS",32531)~
+				REPLACE_TEXTUALLY ~SetGlobal("AnimationId","LOCALS",60704)~ ~ApplySpellRES("torasyid",Myself) SetGlobal("AnimationId","LOCALS",60704)~
+			END
+		COPY_EXISTING ~61THORAM.bcs~  ~override~
+			DECOMPILE_AND_PATCH BEGIN
+				REPLACE_TEXTUALLY ~SetGlobal("AnimationId","LOCALS",60704)~ ~ApplySpellRES("torasyid",Myself) SetGlobal("AnimationId","LOCALS",60704)~
+			END
+	END
+	//ooze
+	ACTION_IF FILE_EXISTS_IN_GAME ~l#nsnym.cre~ BEGIN
+		COPY_EXISTING ~l#nsnym.cre~ ~override~
+			WRITE_ASCII 0x34 ~NYMNYM01~ (8)
+			WRITE_ASCII 0x3c ~NYMNYM01~ (8)
+	END
+
 	//Count them up :)
 	PRINT ~-------------------------------------------------------------~
 	PRINT @90002
 	PRINT ~-------------------------------------------------------------~	
 
 BEGIN @20000
-	REQUIRE_PREDICATE GAME_IS ~bgee bg2ee iwdee eet sod~ @90010
+	REQUIRE_PREDICATE GAME_IS ~bgee bg2ee iwdee eet~ @90010
 	REQUIRE_COMPONENT ~PPE/SETUP-PPE.TP2~ ~0~ @90999
 	SUBCOMPONENT @13000
 	DESIGNATED 100
@@ -60,7 +138,7 @@ BEGIN @20000
 	INCLUDE ~%MOD_FOLDER%/lib/S9MP-CLib.tph~
 	
 BEGIN @20050
-	REQUIRE_PREDICATE GAME_IS ~bgee bg2ee iwdee eet sod~ @90010
+	REQUIRE_PREDICATE GAME_IS ~bgee bg2ee iwdee eet~ @90010
 	REQUIRE_COMPONENT ~PPE/SETUP-PPE.TP2~ ~0~ @90999
 	SUBCOMPONENT @13000
 	DESIGNATED 150
@@ -89,29 +167,137 @@ BEGIN @11125
 	//edwin/edwina
 	INCLUDE ~%MOD_FOLDER%/lib/edwina.tph~
 
+//DESIGNATED 30
+/* NPC_Bg1SodSoaPortrait */
+/* IMOEN */
+BEGIN ~BG1 Portrait~
+	GROUP @11100
+	REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~ ~~
+	SUBCOMPONENT ~Change Imoen portraits~
+	DESIGNATED 300
+	INCLUDE ~%MOD_FOLDER%/lib/NPC_Bg1SodSoaPortrait.tph~
+	LAF ~CR_NPC_Portrait~ STR_VAR type = "bg1" character = "IMOEN" drow = "imo" END
+BEGIN ~SOD Portrait~
+	GROUP @11100
+	REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~ ~~
+	SUBCOMPONENT ~Change Imoen portraits~
+	DESIGNATED 301
+	INCLUDE ~%MOD_FOLDER%/lib/NPC_Bg1SodSoaPortrait.tph~
+	LAF ~CR_NPC_Portrait~ STR_VAR type = "sod" character = "IMOEN" drow = "imo" END
+BEGIN ~BG2 Portrait~
+	GROUP @11100
+	REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~ ~~
+	SUBCOMPONENT ~Change Imoen portraits~
+	DESIGNATED 302
+	INCLUDE ~%MOD_FOLDER%/lib/NPC_Bg1SodSoaPortrait.tph~
+	LAF ~CR_NPC_Portrait~ STR_VAR type = "bg2" character = "IMOEN" END
+
+/* VICONIA */
+BEGIN ~BG1 Portrait~
+	GROUP @11100
+	REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~ ~~
+	SUBCOMPONENT ~Change Viconia portraits~
+	DESIGNATED 310
+	INCLUDE ~%MOD_FOLDER%/lib/NPC_Bg1SodSoaPortrait.tph~
+	LAF ~CR_NPC_Portrait~ INT_VAR vampire = 1 STR_VAR type = "bg1" character = "VICON" suffbg1 = "IA" END
+BEGIN ~SOD Portrait~
+	GROUP @11100
+	REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~ ~~
+	SUBCOMPONENT ~Change Viconia portraits~
+	DESIGNATED 311
+	INCLUDE ~%MOD_FOLDER%/lib/NPC_Bg1SodSoaPortrait.tph~
+	LAF ~CR_NPC_Portrait~ INT_VAR vampire = 1 STR_VAR type = "sod" character = "VICON" END
+BEGIN ~BG2 Portrait~
+	GROUP @11100
+	REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~ ~~
+	SUBCOMPONENT ~Change Viconia portraits~
+	DESIGNATED 312
+	INCLUDE ~%MOD_FOLDER%/lib/NPC_Bg1SodSoaPortrait.tph~
+	LAF ~CR_NPC_Portrait~ INT_VAR vampire = 1 STR_VAR type = "bg2" character = "VICON" END
+
+/* JAHEIRA */
+BEGIN ~BG1 Portrait~
+	GROUP @11100
+	REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~ ~~
+	SUBCOMPONENT ~Change Jaheira portraits~
+	DESIGNATED 320
+	INCLUDE ~%MOD_FOLDER%/lib/NPC_Bg1SodSoaPortrait.tph~
+	LAF ~CR_NPC_Portrait~ INT_VAR vampire = 1 STR_VAR type = "bg1" character = "JAHEIR" suffbg1 = "A" drow = "jah" END
+BEGIN ~BG2 Portrait~
+	GROUP @11100
+	REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~ ~~
+	SUBCOMPONENT ~Change Jaheira portraits~
+	DESIGNATED 322
+	INCLUDE ~%MOD_FOLDER%/lib/NPC_Bg1SodSoaPortrait.tph~
+	LAF ~CR_NPC_Portrait~ INT_VAR vampire = 1 STR_VAR type = "bg2" character = "JAHEIR" END
+
+/* MINSC */
+BEGIN ~BG1 Portrait~
+	GROUP @11100
+	REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~ ~~
+	SUBCOMPONENT ~Change Minsc portraits~
+	DESIGNATED 330
+	INCLUDE ~%MOD_FOLDER%/lib/NPC_Bg1SodSoaPortrait.tph~
+	LAF ~CR_NPC_Portrait~ STR_VAR type = "bg1" character = "MINSC" drow = "min" END
+BEGIN ~BG2 Portrait~
+	GROUP @11100
+	REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~ ~~
+	SUBCOMPONENT ~Change Minsc portraits~
+	DESIGNATED 332
+	INCLUDE ~%MOD_FOLDER%/lib/NPC_Bg1SodSoaPortrait.tph~
+	LAF ~CR_NPC_Portrait~ STR_VAR type = "bg2" character = "MINSC" END
+
+/* EDWIN */
+BEGIN ~BG1 Portrait~
+	GROUP @11100
+	REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~ ~~
+	SUBCOMPONENT ~Change Edwin portraits~
+	DESIGNATED 340
+	INCLUDE ~%MOD_FOLDER%/lib/NPC_Bg1SodSoaPortrait.tph~
+	LAF ~CR_NPC_Portrait~ STR_VAR type = "bg1" character = "EDWIN" drow = "edw" extr = "M" END
+BEGIN ~BG2 Portrait~
+	GROUP @11100
+	REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~ ~~
+	SUBCOMPONENT ~Change Edwin portraits~
+	DESIGNATED 342
+	INCLUDE ~%MOD_FOLDER%/lib/NPC_Bg1SodSoaPortrait.tph~
+	LAF ~CR_NPC_Portrait~ STR_VAR type = "bg2" character = "EDWIN" END
+
+/* LONGHAIR AERIE */
+BEGIN ~Longhair Aerie~
+	GROUP @11100
+	REQUIRE_PREDICATE GAME_IS ~bg2ee eet~ ~~
+	DESIGNATED 350
+	LAM ~longhair_aerie~
+
+
 BEGIN @11130
 	GROUP @11100
 	REQUIRE_PREDICATE GAME_IS ~eet bg2ee~ @90030	
 	DESIGNATED 30
 	//ust natha drow companion portraits
 	INCLUDE ~%MOD_FOLDER%/lib/drow.tph~
+	/* здесь надо сделать свои портреты, их портреты как-то не смотрятся (менять, учитывая DESIGNATED 30)
+	   + портреты для Клары и Скай, если эти моды установлены
+	   + посмотреть, может еще вариант Эдвины нужно. Если Эдвин еще не превратился в мужика */
 	
 BEGIN @11135
 	GROUP @11100
 	REQUIRE_PREDICATE GAME_IS ~eet bg2ee~ @90030	
-	DESIGNATED 35
+	DESIGNATED 40
 	//vampire companion portraits
 	INCLUDE ~%MOD_FOLDER%/lib/standard.tph~
 	OUTER_SET rows_cnt_1=0
 	COPY - ~%MOD_FOLDER%/tbl/VamPortraits.tbl~  ~%MOD_FOLDER%/tbl/VamPortraits.tbl~
 		COUNT_2DA_ROWS 1 "rows_cnt_1"
 			FOR( cntg=0; cntg<"%rows_cnt_1%"; cntg+=1 ) BEGIN
-				READ_2DA_ENTRY cntg  0 2 "Crename"
-				READ_2DA_ENTRY cntg  1 2 "Filename"
+				READ_2DA_ENTRY cntg  0 3 "Crename"
+				READ_2DA_ENTRY cntg  1 3 "Filename_1"
+				READ_2DA_ENTRY cntg  2 3 "Filename_2"
 				INNER_ACTION BEGIN
 					ACTION_IF FILE_EXISTS_IN_GAME ~%Crename%.cre~ THEN BEGIN
-						LAUNCH_ACTION_MACRO ~Addpic~ 
+						LAUNCH_ACTION_MACRO ~AddpicEx~ 
 					END
 				END
-			END	
+			END
 	

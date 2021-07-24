@@ -1,0 +1,80 @@
+
+
+DEFINE_ACTION_FUNCTION ~CR_NPC_Portrait~
+	INT_VAR
+		vampire   = 0
+	STR_VAR
+		type      = "bg2"
+		prefbg1   = ""
+		prefsod   = "BD"
+		prefbg2   = "N"
+		suffbg1   = ""
+		suffsod   = ""
+		suffbg2   = ""
+		character = "IMOEN"
+		drow      = ""
+		extr      = ""
+BEGIN
+	//COPY_EXISTING ~MISC01.ITM~ ~override/%character%_%type%.xxx~ 
+	ACTION_IF ( ~%type%~ STR_CMP ~bg2~ ) BEGIN
+		ACTION_IF ( vampire = 1 ) BEGIN
+			COPY ~%MOD_FOLDER%/tbl/VamPortraits.tbl~ ~%MOD_FOLDER%/tbl~
+				REPLACE_TEXTUALLY ~V%character%~ ~V%character%_%type%~
+		END
+		ACTION_IF FILE_EXISTS ( ~%MOD_FOLDER%/copy/BG2/drow_ext/K#D%drow%%extr%S%type%.bmp~ ) AND FILE_EXISTS ( ~%MOD_FOLDER%/copy/BG2/drow_ext/K#D%drow%%extr%M%type%.bmp~ ) BEGIN
+			COPY ~%MOD_FOLDER%/copy/BG2/drow_ext/K#D%drow%%extr%S%type%.bmp~ ~%MOD_FOLDER%/copy/BG2/drow/K#D%drow%%extr%S.bmp~
+			     ~%MOD_FOLDER%/copy/BG2/drow_ext/K#D%drow%%extr%M%type%.bmp~ ~%MOD_FOLDER%/copy/BG2/drow/K#D%drow%%extr%M.bmp~
+		END
+	END
+	//ACTION_IF ( is_sod ) BEGIN
+	ACTION_IF ( ~%type%~ STR_EQ ~sod~ ) AND ( GAME_IS ~bgee sod eet~ ) BEGIN
+		COPY ~%MOD_FOLDER%/Portraits/%character%%suffsod%%type%L.bmp~  ~override/%prefsod%%character%%suffsod%L.BMP~
+		COPY ~%MOD_FOLDER%/Portraits/%character%%suffsod%%type%M.bmp~  ~override/%prefsod%%character%%suffsod%M.BMP~
+		COPY ~%MOD_FOLDER%/Portraits/%character%%suffsod%%type%S.bmp~  ~override/%prefsod%%character%%suffsod%S.BMP~
+	END
+	ACTION_IF ( GAME_IS ~bgee sod eet~ ) BEGIN
+		COPY ~%MOD_FOLDER%/Portraits/%character%%suffbg1%%type%L.bmp~  ~override/%prefbg1%%character%%suffbg1%L.BMP~
+		COPY ~%MOD_FOLDER%/Portraits/%character%%suffbg1%%type%M.bmp~  ~override/%prefbg1%%character%%suffbg1%M.BMP~
+		COPY ~%MOD_FOLDER%/Portraits/%character%%suffbg1%%type%S.bmp~  ~override/%prefbg1%%character%%suffbg1%S.BMP~
+	END
+	ACTION_IF ( GAME_IS ~bg2ee eet~ ) BEGIN
+		COPY ~%MOD_FOLDER%/Portraits/%character%%suffbg2%%type%L.bmp~  ~override/%prefbg2%%character%%suffbg2%L.BMP~
+		COPY ~%MOD_FOLDER%/Portraits/%character%%suffbg2%%type%M.bmp~  ~override/%prefbg2%%character%%suffbg2%M.BMP~
+		COPY ~%MOD_FOLDER%/Portraits/%character%%suffbg2%%type%S.bmp~  ~override/%prefbg2%%character%%suffbg2%S.BMP~
+	END
+END
+
+DEFINE_ACTION_MACRO ~longhair_aerie~ BEGIN
+	//COPY_EXISTING ~MISC01.ITM~ ~override/Aerie_longhair.xxx~
+	COPY ~%MOD_FOLDER%/tbl/VamPortraits.tbl~ ~%MOD_FOLDER%/tbl~
+		REPLACE_TEXTUALLY ~VAERIE~ ~VAerie_longhair~
+	ACTION_IF FILE_EXISTS ( ~%MOD_FOLDER%/copy/BG2/drow_ext/K#DaerS.bmp~ ) AND FILE_EXISTS ( ~%MOD_FOLDER%/copy/BG2/drow_ext/K#DaerM.bmp~ ) BEGIN
+		COPY ~%MOD_FOLDER%/copy/BG2/drow_ext/K#DaerS.bmp~ ~%MOD_FOLDER%/copy/BG2/drow/K#DaerS.bmp~
+		     ~%MOD_FOLDER%/copy/BG2/drow_ext/K#DaerM.bmp~ ~%MOD_FOLDER%/copy/BG2/drow/K#DaerM.bmp~
+	END
+	COPY ~%MOD_FOLDER%/Portraits/NAERIEL.BMP~ ~override~
+	     ~%MOD_FOLDER%/Portraits/NAERIEM.BMP~ ~override~
+	     ~%MOD_FOLDER%/Portraits/NAERIES.BMP~ ~override~
+END
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

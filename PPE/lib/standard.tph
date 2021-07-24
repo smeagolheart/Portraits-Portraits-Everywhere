@@ -1,14 +1,28 @@
-	DEFINE_ACTION_MACRO ~Addpic~ BEGIN
-			ACTION_IF FILE_EXISTS ~%MOD_FOLDER%/portraits/%Filename%.bmp~ THEN BEGIN
-				LOG ~PATCHING: %Crename%.cre with PORTRAIT: %Filename%.bmp~
-				COPY_EXISTING ~%Crename%.cre~ ~override~
-				WRITE_EVALUATED_ASCII 0x34 ~%Filename%~ #8
-				ACTION_IF NOT FILE_EXISTS ~override\%Filename%.bmp~ THEN BEGIN
-					COPY ~%MOD_FOLDER%/portraits/%Filename%.bmp~ ~override~
-				END
-			END	ELSE BEGIN     // If portrait's not in the mod, just update reference (Re-use existing portraits)
-				COPY_EXISTING ~%Crename%.cre~ ~override~
-				WRITE_EVALUATED_ASCII 0x34 ~%Filename%~ #8
-			END
+DEFINE_ACTION_MACRO ~Addpic~ BEGIN
+	ACTION_IF FILE_EXISTS ~%MOD_FOLDER%/portraits/%Filename%.bmp~ THEN BEGIN
+		LOG ~PATCHING: %Crename%.cre with PORTRAIT: %Filename%.bmp~
+		COPY_EXISTING ~%Crename%.cre~ ~override~
+			WRITE_EVALUATED_ASCII 0x34 ~%Filename%~ #8
+		ACTION_IF NOT FILE_EXISTS ~override\%Filename%.bmp~ THEN BEGIN
+			COPY ~%MOD_FOLDER%/portraits/%Filename%.bmp~ ~override~
+		END
+	END	ELSE BEGIN     // If portrait's not in the mod, just update reference (Re-use existing portraits)
+		COPY_EXISTING ~%Crename%.cre~ ~override~
+			WRITE_EVALUATED_ASCII 0x34 ~%Filename%~ #8
+		END
+END
+
+DEFINE_ACTION_MACRO ~AddpicEx~ BEGIN
+	ACTION_IF FILE_EXISTS ~%MOD_FOLDER%/portraits/%Filename_1%.bmp~ THEN BEGIN
+		LOG ~PATCHING: %Crename%.cre with PORTRAIT: %Filename_2%.bmp from %Filename_1%.bmp~
+		COPY_EXISTING ~%Crename%.cre~ ~override~
+			WRITE_EVALUATED_ASCII 0x34 ~%Filename_2%~ #8
+		ACTION_IF NOT FILE_EXISTS ~override\%Filename_2%.bmp~ THEN BEGIN
+			COPY ~%MOD_FOLDER%/portraits/%Filename_1%.bmp~ ~override/%Filename_2%.bmp~
+		END
+	END	ELSE BEGIN     // If portrait's not in the mod, just update reference (Re-use existing portraits)
+		COPY_EXISTING ~%Crename%.cre~ ~override~
+			WRITE_EVALUATED_ASCII 0x34 ~%Filename_2%~ #8
 	END
+END
 	

@@ -1,4 +1,5 @@
 //Drow portraits
+//INCLUDE ~%MOD_FOLDER%/lib/NPC_Bg1SodSoaPortrait.tph~
 
 ACTION_DEFINE_ASSOCIATIVE_ARRAY array_dvID BEGIN //Left - DV (NPC script name); Right - 3 letters used in portrait/spell names
 	Aerie => aer
@@ -17,13 +18,13 @@ ACTION_DEFINE_ASSOCIATIVE_ARRAY array_dvID BEGIN //Left - DV (NPC script name); 
 	Minsc => min
 	Nalia => nal
 	Valygar => val
-	Viconia => vic
+	//Viconia => vic
 	Yoshimo => yos
 	Dorn => dor
 	Neera => nee
-	Ohhfak => hef
+	//Ohhfak => hef
 	Rasaad => ras
-	Wilson => wil
+	//Wilson => wil
 END
 
 COPY ~PPE/SPL/K#DREM.SPL~ ~override~ //spell that removes spell effects from whole party

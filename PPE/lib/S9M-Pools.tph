@@ -1,3 +1,342 @@
+OUTER_SPRINT ~Adherent~ @1000023
+OUTER_SPRINT ~Amnian~ @1000159
+OUTER_SPRINT ~ApparitionP~ @1000011
+OUTER_SPRINT ~ApparitionV~ @1000012
+OUTER_SPRINT ~Assassin~ @1000054
+OUTER_SPRINT ~Bandit~ @1000052
+OUTER_SPRINT ~BartenderA~ @1000154
+OUTER_SPRINT ~BartenderB~ @1000155
+OUTER_SPRINT ~Beggar~ @1000070
+OUTER_SPRINT ~Bouncer~ @1000114
+OUTER_SPRINT ~Bounty_Hunter~ @1000030
+OUTER_SPRINT ~Boy~ @1000158
+OUTER_SPRINT ~Bridgefort~ @1000025
+OUTER_SPRINT ~Butler~ @1000121
+OUTER_SPRINT ~Camp_Follower~ @1000145
+OUTER_SPRINT ~Captain~ @1000002
+OUTER_SPRINT ~Captive_Villager~ @1000139
+OUTER_SPRINT ~Child~ @1000096
+OUTER_SPRINT ~Circus_Performer~ @1000073
+OUTER_SPRINT ~Citizen~ @1000127
+OUTER_SPRINT ~Civil_Servant~ @1000119
+OUTER_SPRINT ~Cleric_OfCF~ @1000020
+OUTER_SPRINT ~Cleric_OfCM~ @1000019
+OUTER_SPRINT ~Cleric_OfPF~ @1000022
+OUTER_SPRINT ~Cleric_OfPM~ @1000021
+OUTER_SPRINT ~Coalition~ @1000024
+OUTER_SPRINT ~CommonerF~ @1000036
+OUTER_SPRINT ~Commoner~ @1000001
+OUTER_SPRINT ~Cook~ @1000071
+OUTER_SPRINT ~Courtesan~ @1000097
+OUTER_SPRINT ~Courtier~ @1000118
+OUTER_SPRINT ~Cowherd~ @1000140
+OUTER_SPRINT ~Cowled~ @1000153
+OUTER_SPRINT ~Crewmate~ @1000094
+OUTER_SPRINT ~Crowd_Member~ @1000059
+OUTER_SPRINT ~Crusader~ @1000015
+OUTER_SPRINT ~CultA~ @1000112
+OUTER_SPRINT ~CultB~ @1000113
+OUTER_SPRINT ~Customer~ @1000143
+OUTER_SPRINT ~Daggerford~ @1000026
+OUTER_SPRINT ~Dancer~ @1000098
+OUTER_SPRINT ~Dark_Moon~ @1000086
+OUTER_SPRINT ~Digger~ @1000055
+OUTER_SPRINT ~DockhandA~ @1000066
+OUTER_SPRINT ~DockhandB~ @1000067
+OUTER_SPRINT ~Drow~ @1000008
+OUTER_SPRINT ~Druid~ @1000089
+OUTER_SPRINT ~Dwarf~ @1000061
+OUTER_SPRINT ~Dwarven~ @1000068
+OUTER_SPRINT ~Eldathyn~ @1000006
+OUTER_SPRINT ~ElfF~ @1000014
+OUTER_SPRINT ~ElfM~ @1000013
+OUTER_SPRINT ~Elven~ @1000035
+OUTER_SPRINT ~EnforcerA~ @1000081
+OUTER_SPRINT ~EnforcerB~ @1000082
+OUTER_SPRINT ~Farmer~ @1000003
+OUTER_SPRINT ~FighterM~ @1000038
+OUTER_SPRINT ~FighterW~ @1000037
+OUTER_SPRINT ~Fighter~ @1000004
+OUTER_SPRINT ~Fisherman~ @1000092
+OUTER_SPRINT ~Fishwife~ @1000124
+OUTER_SPRINT ~Flaming_Fist~ @1000093
+OUTER_SPRINT ~Food~ @1000122
+OUTER_SPRINT ~Footman~ @1000161
+OUTER_SPRINT ~Gamesman~ @1000166
+OUTER_SPRINT ~Gardener~ @1000125
+OUTER_SPRINT ~Gatekeeper~ @1000005
+OUTER_SPRINT ~Ghost~ @1000009
+OUTER_SPRINT ~Girl~ @1000095
+OUTER_SPRINT ~Gladiator~ @1000064
+OUTER_SPRINT ~Goon~ @1000104
+OUTER_SPRINT ~GuardA~ @1000062
+OUTER_SPRINT ~GuardB~ @1000063
+OUTER_SPRINT ~Guardian~ @1000000
+OUTER_SPRINT ~Halfling~ @1000069
+OUTER_SPRINT ~Harlot~ @1000099
+OUTER_SPRINT ~Hawker~ @1000078
+OUTER_SPRINT ~Heckler~ @1000126
+OUTER_SPRINT ~Helpful_Man~ @1000164
+OUTER_SPRINT ~Heretic_Monk~ @1000087
+OUTER_SPRINT ~Human~ @1000120
+OUTER_SPRINT ~Innkeeper_~ @1000079
+OUTER_SPRINT ~Knight~ @1000105
+OUTER_SPRINT ~Laborer~ @1000123
+OUTER_SPRINT ~Mage~ @1000039
+OUTER_SPRINT ~Magician~ @1000040
+OUTER_SPRINT ~Mercenary~ @1000029
+OUTER_SPRINT ~Merchant~ @1000065
+OUTER_SPRINT ~MessengerA~ @1000129
+OUTER_SPRINT ~MessengerB~ @1000130
+OUTER_SPRINT ~MessengerC~ @1000131
+OUTER_SPRINT ~MessengerD~ @1000132
+OUTER_SPRINT ~Militia~ @1000111
+OUTER_SPRINT ~Miner~ @1000133
+OUTER_SPRINT ~Moneylender~ @1000116
+OUTER_SPRINT ~Monk~ @1000088
+OUTER_SPRINT ~Mourner~ @1000076
+OUTER_SPRINT ~Nobleman~ @1000163
+OUTER_SPRINT ~Noblewoman~ @1000115
+OUTER_SPRINT ~Ogre_Mage~ @1000007
+OUTER_SPRINT ~Patron~ @1000142
+OUTER_SPRINT ~Peasant~ @1000072
+OUTER_SPRINT ~Performer~ @1000144
+OUTER_SPRINT ~Pirate~ @1000091
+OUTER_SPRINT ~Priest_of_Cyric~ @1000150
+OUTER_SPRINT ~Priest_of_Talos~ @1000149
+OUTER_SPRINT ~Priestess_of_Umberlee~ @1000084
+OUTER_SPRINT ~Priestess~ @1000085
+OUTER_SPRINT ~Priest~ @1000080
+OUTER_SPRINT ~Prisoner~ @1000027
+OUTER_SPRINT ~Prophet~ @1000151
+OUTER_SPRINT ~Reader~ @1000152
+OUTER_SPRINT ~Red_Wizard~ @1000090
+OUTER_SPRINT ~Refugee~ @1000031
+OUTER_SPRINT ~RogueF~ @1000050
+OUTER_SPRINT ~RogueM~ @1000049
+OUTER_SPRINT ~Ruffian~ @1000051
+OUTER_SPRINT ~Sacrifice~ @1000160
+OUTER_SPRINT ~Sailor~ @1000018
+OUTER_SPRINT ~SentryA~ @1000106
+OUTER_SPRINT ~SentryB~ @1000107
+OUTER_SPRINT ~SentryC~ @1000108
+OUTER_SPRINT ~Servant~ @1000146
+OUTER_SPRINT ~Sewer_Cleaner~ @1000141
+OUTER_SPRINT ~Shady_Character~ @1000102
+OUTER_SPRINT ~Sharran_OverseerA~ @1000109
+OUTER_SPRINT ~Sharran_OverseerB~ @1000110
+OUTER_SPRINT ~Slave~ @1000075
+OUTER_SPRINT ~Smuggler~ @1000103
+OUTER_SPRINT ~Soldier~ @1000083
+OUTER_SPRINT ~SorcererA~ @1000044
+OUTER_SPRINT ~SorcererB~ @1000045
+OUTER_SPRINT ~SorcererC~ @1000046
+OUTER_SPRINT ~SorceressA~ @1000041
+OUTER_SPRINT ~SorceressB~ @1000042
+OUTER_SPRINT ~SorceressC~ @1000042
+OUTER_SPRINT ~Spectral~ @1000010
+OUTER_SPRINT ~StorekeepA~ @1000016
+OUTER_SPRINT ~StorekeepB~ @1000017
+OUTER_SPRINT ~Svirfneblin~ @1000077
+OUTER_SPRINT ~Tavern_Drunk~ @1000136
+OUTER_SPRINT ~Tavern_PatronA~ @1000134
+OUTER_SPRINT ~Tavern_PatronB~ @1000135
+OUTER_SPRINT ~Tax_Collector~ @1000117
+OUTER_SPRINT ~Thief~ @1000053
+OUTER_SPRINT ~ThrallF~ @1000033
+OUTER_SPRINT ~ThrallM~ @1000032
+OUTER_SPRINT ~Thug~ @1000101
+OUTER_SPRINT ~TouristA~ @1000137
+OUTER_SPRINT ~TouristB~ @1000138
+OUTER_SPRINT ~Town_Crier~ @1000074
+OUTER_SPRINT ~Townsperson~ @1000060
+OUTER_SPRINT ~Trainee~ @1000128
+OUTER_SPRINT ~TravelerA~ @1000056
+OUTER_SPRINT ~TravelerB~ @1000057
+OUTER_SPRINT ~Tutor~ @1000156
+OUTER_SPRINT ~Usher~ @1000147
+OUTER_SPRINT ~Waiter~ @1000165
+OUTER_SPRINT ~Watcher~ @1000157
+OUTER_SPRINT ~Waterdhavian~ @1000028
+OUTER_SPRINT ~Wench~ @1000100
+OUTER_SPRINT ~Wizard_Slayer~ @1000048
+OUTER_SPRINT ~Wizard~ @1000047
+OUTER_SPRINT ~Woman~ @1000148
+OUTER_SPRINT ~Woodcutter~ @1000034
+OUTER_SPRINT ~Worker~ @1000058
+OUTER_SPRINT ~Yeoman~ @1000162
+
+/* LAF to_english */
+LAF to_english STR_VAR str = EVAL ~%Adherent%~ RET Adherent = rts END
+LAF to_english STR_VAR str = EVAL ~%Amnian%~ RET Amnian = rts END
+LAF to_english STR_VAR str = EVAL ~%ApparitionP%~ RET ApparitionP = rts END
+LAF to_english STR_VAR str = EVAL ~%ApparitionV%~ RET ApparitionV = rts END
+LAF to_english STR_VAR str = EVAL ~%Assassin%~ RET Assassin = rts END
+LAF to_english STR_VAR str = EVAL ~%Bandit%~ RET Bandit = rts END
+LAF to_english STR_VAR str = EVAL ~%BartenderA%~ RET BartenderA = rts END
+LAF to_english STR_VAR str = EVAL ~%BartenderB%~ RET BartenderB = rts END
+LAF to_english STR_VAR str = EVAL ~%Beggar%~ RET Beggar = rts END
+LAF to_english STR_VAR str = EVAL ~%Bouncer%~ RET Bouncer = rts END
+LAF to_english STR_VAR str = EVAL ~%Bounty_Hunter%~ RET Bounty_Hunter = rts END
+LAF to_english STR_VAR str = EVAL ~%Boy%~ RET Boy = rts END
+LAF to_english STR_VAR str = EVAL ~%Bridgefort%~ RET Bridgefort = rts END
+LAF to_english STR_VAR str = EVAL ~%Butler%~ RET Butler = rts END
+LAF to_english STR_VAR str = EVAL ~%Camp_Follower%~ RET Camp_Follower = rts END
+LAF to_english STR_VAR str = EVAL ~%Captain%~ RET Captain = rts END
+LAF to_english STR_VAR str = EVAL ~%Captive_Villager%~ RET Captive_Villager = rts END
+LAF to_english STR_VAR str = EVAL ~%Child%~ RET Child = rts END
+LAF to_english STR_VAR str = EVAL ~%Circus_Performer%~ RET Circus_Performer = rts END
+LAF to_english STR_VAR str = EVAL ~%Citizen%~ RET Citizen = rts END
+LAF to_english STR_VAR str = EVAL ~%Civil_Servant%~ RET Civil_Servant = rts END
+LAF to_english STR_VAR str = EVAL ~%Cleric_OfCF%~ RET Cleric_OfCF = rts END
+LAF to_english STR_VAR str = EVAL ~%Cleric_OfCM%~ RET Cleric_OfCM = rts END
+LAF to_english STR_VAR str = EVAL ~%Cleric_OfPF%~ RET Cleric_OfPF = rts END
+LAF to_english STR_VAR str = EVAL ~%Cleric_OfPM%~ RET Cleric_OfPM = rts END
+LAF to_english STR_VAR str = EVAL ~%Coalition%~ RET Coalition = rts END
+LAF to_english STR_VAR str = EVAL ~%CommonerF%~ RET CommonerF = rts END
+LAF to_english STR_VAR str = EVAL ~%Commoner%~ RET Commoner = rts END
+LAF to_english STR_VAR str = EVAL ~%Cook%~ RET Cook = rts END
+LAF to_english STR_VAR str = EVAL ~%Courtesan%~ RET Courtesan = rts END
+LAF to_english STR_VAR str = EVAL ~%Courtier%~ RET Courtier = rts END
+LAF to_english STR_VAR str = EVAL ~%Cowherd%~ RET Cowherd = rts END
+LAF to_english STR_VAR str = EVAL ~%Cowled%~ RET Cowled = rts END
+LAF to_english STR_VAR str = EVAL ~%Crewmate%~ RET Crewmate = rts END
+LAF to_english STR_VAR str = EVAL ~%Crowd_Member%~ RET Crowd_Member = rts END
+LAF to_english STR_VAR str = EVAL ~%Crusader%~ RET Crusader = rts END
+LAF to_english STR_VAR str = EVAL ~%CultA%~ RET CultA = rts END
+LAF to_english STR_VAR str = EVAL ~%CultB%~ RET CultB = rts END
+LAF to_english STR_VAR str = EVAL ~%Customer%~ RET Customer = rts END
+LAF to_english STR_VAR str = EVAL ~%Daggerford%~ RET Daggerford = rts END
+LAF to_english STR_VAR str = EVAL ~%Dancer%~ RET Dancer = rts END
+LAF to_english STR_VAR str = EVAL ~%Dark_Moon%~ RET Dark_Moon = rts END
+LAF to_english STR_VAR str = EVAL ~%Digger%~ RET Digger = rts END
+LAF to_english STR_VAR str = EVAL ~%DockhandA%~ RET DockhandA = rts END
+LAF to_english STR_VAR str = EVAL ~%DockhandB%~ RET DockhandB = rts END
+LAF to_english STR_VAR str = EVAL ~%Drow%~ RET Drow = rts END
+LAF to_english STR_VAR str = EVAL ~%Druid%~ RET Druid = rts END
+LAF to_english STR_VAR str = EVAL ~%Dwarf%~ RET Dwarf = rts END
+LAF to_english STR_VAR str = EVAL ~%Dwarven%~ RET Dwarven = rts END
+LAF to_english STR_VAR str = EVAL ~%Eldathyn%~ RET Eldathyn = rts END
+LAF to_english STR_VAR str = EVAL ~%ElfF%~ RET ElfF = rts END
+LAF to_english STR_VAR str = EVAL ~%ElfM%~ RET ElfM = rts END
+LAF to_english STR_VAR str = EVAL ~%Elven%~ RET Elven = rts END
+LAF to_english STR_VAR str = EVAL ~%EnforcerA%~ RET EnforcerA = rts END
+LAF to_english STR_VAR str = EVAL ~%EnforcerB%~ RET EnforcerB = rts END
+LAF to_english STR_VAR str = EVAL ~%Farmer%~ RET Farmer = rts END
+LAF to_english STR_VAR str = EVAL ~%FighterM%~ RET FighterM = rts END
+LAF to_english STR_VAR str = EVAL ~%FighterW%~ RET FighterW = rts END
+LAF to_english STR_VAR str = EVAL ~%Fighter%~ RET Fighter = rts END
+LAF to_english STR_VAR str = EVAL ~%Fisherman%~ RET Fisherman = rts END
+LAF to_english STR_VAR str = EVAL ~%Fishwife%~ RET Fishwife = rts END
+LAF to_english STR_VAR str = EVAL ~%Flaming_Fist%~ RET Flaming_Fist = rts END
+LAF to_english STR_VAR str = EVAL ~%Food%~ RET Food = rts END
+LAF to_english STR_VAR str = EVAL ~%Footman%~ RET Footman = rts END
+LAF to_english STR_VAR str = EVAL ~%Gamesman%~ RET Gamesman = rts END
+LAF to_english STR_VAR str = EVAL ~%Gardener%~ RET Gardener = rts END
+LAF to_english STR_VAR str = EVAL ~%Gatekeeper%~ RET Gatekeeper = rts END
+LAF to_english STR_VAR str = EVAL ~%Ghost%~ RET Ghost = rts END
+LAF to_english STR_VAR str = EVAL ~%Girl%~ RET Girl = rts END
+LAF to_english STR_VAR str = EVAL ~%Gladiator%~ RET Gladiator = rts END
+LAF to_english STR_VAR str = EVAL ~%Goon%~ RET Goon = rts END
+LAF to_english STR_VAR str = EVAL ~%GuardA%~ RET GuardA = rts END
+LAF to_english STR_VAR str = EVAL ~%GuardB%~ RET GuardB = rts END
+LAF to_english STR_VAR str = EVAL ~%Guardian%~ RET Guardian = rts END
+LAF to_english STR_VAR str = EVAL ~%Halfling%~ RET Halfling = rts END
+LAF to_english STR_VAR str = EVAL ~%Harlot%~ RET Harlot = rts END
+LAF to_english STR_VAR str = EVAL ~%Hawker%~ RET Hawker = rts END
+LAF to_english STR_VAR str = EVAL ~%Heckler%~ RET Heckler = rts END
+LAF to_english STR_VAR str = EVAL ~%Helpful_Man%~ RET Helpful_Man = rts END
+LAF to_english STR_VAR str = EVAL ~%Heretic_Monk%~ RET Heretic_Monk = rts END
+LAF to_english STR_VAR str = EVAL ~%Human%~ RET Human = rts END
+LAF to_english STR_VAR str = EVAL ~%Innkeeper_%~ RET Innkeeper_ = rts END
+LAF to_english STR_VAR str = EVAL ~%Knight%~ RET Knight = rts END
+LAF to_english STR_VAR str = EVAL ~%Laborer%~ RET Laborer = rts END
+LAF to_english STR_VAR str = EVAL ~%Mage%~ RET Mage = rts END
+LAF to_english STR_VAR str = EVAL ~%Magician%~ RET Magician = rts END
+LAF to_english STR_VAR str = EVAL ~%Mercenary%~ RET Mercenary = rts END
+LAF to_english STR_VAR str = EVAL ~%Merchant%~ RET Merchant = rts END
+LAF to_english STR_VAR str = EVAL ~%MessengerA%~ RET MessengerA = rts END
+LAF to_english STR_VAR str = EVAL ~%MessengerB%~ RET MessengerB = rts END
+LAF to_english STR_VAR str = EVAL ~%MessengerC%~ RET MessengerC = rts END
+LAF to_english STR_VAR str = EVAL ~%MessengerD%~ RET MessengerD = rts END
+LAF to_english STR_VAR str = EVAL ~%Militia%~ RET Militia = rts END
+LAF to_english STR_VAR str = EVAL ~%Miner%~ RET Miner = rts END
+LAF to_english STR_VAR str = EVAL ~%Moneylender%~ RET Moneylender = rts END
+LAF to_english STR_VAR str = EVAL ~%Monk%~ RET Monk = rts END
+LAF to_english STR_VAR str = EVAL ~%Mourner%~ RET Mourner = rts END
+LAF to_english STR_VAR str = EVAL ~%Nobleman%~ RET Nobleman = rts END
+LAF to_english STR_VAR str = EVAL ~%Noblewoman%~ RET Noblewoman = rts END
+LAF to_english STR_VAR str = EVAL ~%Ogre_Mage%~ RET Ogre_Mage = rts END
+LAF to_english STR_VAR str = EVAL ~%Patron%~ RET Patron = rts END
+LAF to_english STR_VAR str = EVAL ~%Peasant%~ RET Peasant = rts END
+LAF to_english STR_VAR str = EVAL ~%Performer%~ RET Performer = rts END
+LAF to_english STR_VAR str = EVAL ~%Pirate%~ RET Pirate = rts END
+LAF to_english STR_VAR str = EVAL ~%Priest_of_Cyric%~ RET Priest_of_Cyric = rts END
+LAF to_english STR_VAR str = EVAL ~%Priest_of_Talos%~ RET Priest_of_Talos = rts END
+LAF to_english STR_VAR str = EVAL ~%Priestess_of_Umberlee%~ RET Priestess_of_Umberlee = rts END
+LAF to_english STR_VAR str = EVAL ~%Priestess%~ RET Priestess = rts END
+LAF to_english STR_VAR str = EVAL ~%Priest%~ RET Priest = rts END
+LAF to_english STR_VAR str = EVAL ~%Prisoner%~ RET Prisoner = rts END
+LAF to_english STR_VAR str = EVAL ~%Prophet%~ RET Prophet = rts END
+LAF to_english STR_VAR str = EVAL ~%Reader%~ RET Reader = rts END
+LAF to_english STR_VAR str = EVAL ~%Red_Wizard%~ RET Red_Wizard = rts END
+LAF to_english STR_VAR str = EVAL ~%Refugee%~ RET Refugee = rts END
+LAF to_english STR_VAR str = EVAL ~%RogueF%~ RET RogueF = rts END
+LAF to_english STR_VAR str = EVAL ~%RogueM%~ RET RogueM = rts END
+LAF to_english STR_VAR str = EVAL ~%Ruffian%~ RET Ruffian = rts END
+LAF to_english STR_VAR str = EVAL ~%Sacrifice%~ RET Sacrifice = rts END
+LAF to_english STR_VAR str = EVAL ~%Sailor%~ RET Sailor = rts END
+LAF to_english STR_VAR str = EVAL ~%SentryA%~ RET SentryA = rts END
+LAF to_english STR_VAR str = EVAL ~%SentryB%~ RET SentryB = rts END
+LAF to_english STR_VAR str = EVAL ~%SentryC%~ RET SentryC = rts END
+LAF to_english STR_VAR str = EVAL ~%Servant%~ RET Servant = rts END
+LAF to_english STR_VAR str = EVAL ~%Sewer_Cleaner%~ RET Sewer_Cleaner = rts END
+LAF to_english STR_VAR str = EVAL ~%Shady_Character%~ RET Shady_Character = rts END
+LAF to_english STR_VAR str = EVAL ~%Sharran_OverseerA%~ RET Sharran_OverseerA = rts END
+LAF to_english STR_VAR str = EVAL ~%Sharran_OverseerB%~ RET Sharran_OverseerB = rts END
+LAF to_english STR_VAR str = EVAL ~%Slave%~ RET Slave = rts END
+LAF to_english STR_VAR str = EVAL ~%Smuggler%~ RET Smuggler = rts END
+LAF to_english STR_VAR str = EVAL ~%Soldier%~ RET Soldier = rts END
+LAF to_english STR_VAR str = EVAL ~%SorcererA%~ RET SorcererA = rts END
+LAF to_english STR_VAR str = EVAL ~%SorcererB%~ RET SorcererB = rts END
+LAF to_english STR_VAR str = EVAL ~%SorcererC%~ RET SorcererC = rts END
+LAF to_english STR_VAR str = EVAL ~%SorceressA%~ RET SorceressA = rts END
+LAF to_english STR_VAR str = EVAL ~%SorceressB%~ RET SorceressB = rts END
+LAF to_english STR_VAR str = EVAL ~%SorceressC%~ RET SorceressC = rts END
+LAF to_english STR_VAR str = EVAL ~%Spectral%~ RET Spectral = rts END
+LAF to_english STR_VAR str = EVAL ~%StorekeepA%~ RET StorekeepA = rts END
+LAF to_english STR_VAR str = EVAL ~%StorekeepB%~ RET StorekeepB = rts END
+LAF to_english STR_VAR str = EVAL ~%Svirfneblin%~ RET Svirfneblin = rts END
+LAF to_english STR_VAR str = EVAL ~%Tavern_Drunk%~ RET Tavern_Drunk = rts END
+LAF to_english STR_VAR str = EVAL ~%Tavern_PatronA%~ RET Tavern_PatronA = rts END
+LAF to_english STR_VAR str = EVAL ~%Tavern_PatronB%~ RET Tavern_PatronB = rts END
+LAF to_english STR_VAR str = EVAL ~%Tax_Collector%~ RET Tax_Collector = rts END
+LAF to_english STR_VAR str = EVAL ~%Thief%~ RET Thief = rts END
+LAF to_english STR_VAR str = EVAL ~%ThrallF%~ RET ThrallF = rts END
+LAF to_english STR_VAR str = EVAL ~%ThrallM%~ RET ThrallM = rts END
+LAF to_english STR_VAR str = EVAL ~%Thug%~ RET Thug = rts END
+LAF to_english STR_VAR str = EVAL ~%TouristA%~ RET TouristA = rts END
+LAF to_english STR_VAR str = EVAL ~%TouristB%~ RET TouristB = rts END
+LAF to_english STR_VAR str = EVAL ~%Town_Crier%~ RET Town_Crier = rts END
+LAF to_english STR_VAR str = EVAL ~%Townsperson%~ RET Townsperson = rts END
+LAF to_english STR_VAR str = EVAL ~%Trainee%~ RET Trainee = rts END
+LAF to_english STR_VAR str = EVAL ~%TravelerA%~ RET TravelerA = rts END
+LAF to_english STR_VAR str = EVAL ~%TravelerB%~ RET TravelerB = rts END
+LAF to_english STR_VAR str = EVAL ~%Tutor%~ RET Tutor = rts END
+LAF to_english STR_VAR str = EVAL ~%Usher%~ RET Usher = rts END
+LAF to_english STR_VAR str = EVAL ~%Waiter%~ RET Waiter = rts END
+LAF to_english STR_VAR str = EVAL ~%Watcher%~ RET Watcher = rts END
+LAF to_english STR_VAR str = EVAL ~%Waterdhavian%~ RET Waterdhavian = rts END
+LAF to_english STR_VAR str = EVAL ~%Wench%~ RET Wench = rts END
+LAF to_english STR_VAR str = EVAL ~%Wizard_Slayer%~ RET Wizard_Slayer = rts END
+LAF to_english STR_VAR str = EVAL ~%Wizard%~ RET Wizard = rts END
+LAF to_english STR_VAR str = EVAL ~%Woman%~ RET Woman = rts END
+LAF to_english STR_VAR str = EVAL ~%Woodcutter%~ RET Woodcutter = rts END
+LAF to_english STR_VAR str = EVAL ~%Worker%~ RET Worker = rts END
+LAF to_english STR_VAR str = EVAL ~%Yeoman%~ RET Yeoman = rts END
+
+
+
 //Variable Declarations
 RANDOM_SEED 				~would that it twere so simple~	// Initialize the Random Number Generator
 OUTER_SET rnd_cnt 			= 0								// Counter for Total Number of Random Portraits
@@ -166,11 +505,11 @@ DEFINE_ACTION_MACRO ~RndChecker~ BEGIN
 	END
 	OUTER_SET rnd_cnt += 1												// Counter for Total Category Portraits Applied
 END
-//*************************************************************************************************************
-//*************************************************************************************************************
+// ************************************************************************************************************
+// ************************************************************************************************************
 // ********************************************Portrait Pools**************************************************
-//*************************************************************************************************************
-//*************************************************************************************************************
+// ************************************************************************************************************
+// ************************************************************************************************************
 // Generic Male
 DEFINE_ACTION_MACRO ~GetRndMale~ BEGIN
 	ACTION_IF IsPortraitSet = 0 THEN BEGIN			
@@ -1613,5 +1952,5 @@ END  // End
 */
 
 
-//*************************************************************************************************************
-//*************************************************************************************************************
+// ************************************************************************************************************
+// ************************************************************************************************************
