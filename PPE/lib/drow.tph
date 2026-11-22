@@ -60,7 +60,6 @@ COPY_EXISTING ~AR2102.bcs~ ~override~
 	END
 BUT_ONLY
 
-//Add drow portrait removal code at the same places that removes party animation from drow back to normal
 COPY_EXISTING ~BALDUR.bcs~ ~override~
 	~DRAGSILV.bcs~ ~override~
 	~UDCBACK.bcs~ ~override~
